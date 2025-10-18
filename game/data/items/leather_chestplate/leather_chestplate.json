@@ -1,0 +1,16 @@
+{
+	"name" : "leather_chestplate",
+	"width" : 3,
+	"height" : 3,
+	
+	"tags" : [
+		"armor"
+	],
+
+	"effects" : [
+		{
+			"type" : "start",
+			"block" : 150
+		}
+	]
+}

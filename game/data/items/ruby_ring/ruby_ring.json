@@ -1,0 +1,16 @@
+{
+	"name" : "ruby_ring",
+	"width" : 1,
+	"height" : 1,
+	
+	"tags" : [
+		"jewelry"
+	],
+
+	"effects" : [
+		{
+			"type" : "start",
+			"health" : 100
+		}
+	]
+}

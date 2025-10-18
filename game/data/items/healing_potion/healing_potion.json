@@ -1,0 +1,19 @@
+{
+	"name" : "healing_potion",
+	"width" : 1,
+	"height" : 2,
+	
+	"tags" : [
+		"potion"
+	],
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"charges" : 4,
+			"time" : 5,
+			"heal" : 60,
+			"purity" : 5
+		}
+	]
+}

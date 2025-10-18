@@ -1,0 +1,13 @@
+{
+	"name" : "nasty_skin",
+	"width" : 2,
+	"height" : 2,
+
+	"effects" : [
+		{
+			"type" : "start",
+			"health" : 40,
+			"self_damage" : 40,
+		}
+	]
+}

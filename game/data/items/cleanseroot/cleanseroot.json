@@ -1,0 +1,17 @@
+{
+	"name" : "cleanseroot",
+	"width" : 1,
+	"height" : 2,
+
+	"tags" : [
+		"plant"
+	],
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 5,
+			"purity" : 3
+		}
+	]
+}

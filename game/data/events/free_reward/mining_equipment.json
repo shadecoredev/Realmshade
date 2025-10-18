@@ -1,0 +1,13 @@
+{
+	"name" : "mining_equipment",
+	"type" : "free_reward",
+	"level_range_start" : 0,
+	"level_range_end" : 5,
+	"rewards" : [
+		"copper_pickaxe",
+		"torch",
+		"dynamite_stick",
+		"bomb",
+		"rope"
+	]
+}

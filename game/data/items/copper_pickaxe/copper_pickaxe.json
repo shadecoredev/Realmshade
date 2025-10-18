@@ -1,0 +1,17 @@
+{
+	"name" : "copper_pickaxe",
+	"width" : 3,
+	"height" : 3,
+
+	"tags" : [
+		"melee"
+	],
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 6,
+			"damage" : 55
+		}
+	]
+}

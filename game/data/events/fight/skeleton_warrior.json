@@ -1,0 +1,40 @@
+{
+	"name" : "skeleton_warrior",
+	"type" : "fight",
+	"level_range_start" : 3,
+	"level_range_end" : 8,
+	"inventory" : {
+		"items": [
+		{
+			"name": "copper_helmet",
+			"position": 48
+		},
+		{
+			"name": "wooden_shield",
+			"position": 1
+		},
+		{
+			"name": "copper_axe",
+			"position": 97
+		},
+		{
+			"name": "bone",
+			"position": 338
+		},
+		{
+			"name": "aquamarine",
+			"position": 50
+		},
+		{
+			"name": "bone",
+			"position": 52
+		},
+		{
+			"name": "bone",
+			"position": 290
+		}
+	],
+		"size_x": 8,
+		"size_y": 5
+	}
+}

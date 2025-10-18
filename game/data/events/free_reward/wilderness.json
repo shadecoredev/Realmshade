@@ -1,0 +1,14 @@
+{
+	"name" : "wilderness",
+	"type" : "free_reward",
+	"level_range_start" : 0,
+	"level_range_end" : 5,
+	"rewards" : [
+		"vileshroom",
+		"healstem",
+		"poisonleaf",
+		"cleanseroot",
+		"branch",
+		"rock",
+	]
+}

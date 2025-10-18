@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://d12pudaexsjg3"]
+
+[ext_resource type="Texture2D" uid="uid://b4klyywubqr0t" path="res://assets/textures/ui/panels/info_box.png" id="1_0uqby"]
+[ext_resource type="Material" uid="uid://dcofqc06xashp" path="res://assets/materials/stylized_text/stylized_text_material.tres" id="1_uhsxw"]
+[ext_resource type="Script" uid="uid://dtgbkqx2pyl7d" path="res://scripts/ui/ui_info_box.gd" id="1_uns6c"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0uqby"]
+texture = ExtResource("1_0uqby")
+texture_margin_left = 6.0
+texture_margin_top = 18.0
+texture_margin_right = 6.0
+texture_margin_bottom = 7.0
+
+[node name="Control" type="Control" node_paths=PackedStringArray("title_label", "main_label")]
+layout_mode = 3
+anchor_right = 0.15300001
+anchor_bottom = 0.060000002
+offset_right = -0.25601196
+offset_bottom = 0.11999893
+script = ExtResource("1_uns6c")
+title_label = NodePath("Label Title")
+main_label = NodePath("Panel/VBoxContainer/RichTextLabel Main text")
+
+[node name="Label Title" type="Label" parent="."]
+z_index = 51
+material = ExtResource("1_uhsxw")
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 14.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Title"
+horizontal_alignment = 1
+
+[node name="Panel" type="PanelContainer" parent="."]
+z_index = 50
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.9983612
+anchor_bottom = 0.8119793
+offset_left = -0.035998464
+offset_right = 0.23599243
+offset_bottom = 0.024993896
+theme_override_styles/panel = SubResource("StyleBoxTexture_0uqby")
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+
+[node name="RichTextLabel Main text" type="RichTextLabel" parent="Panel/VBoxContainer"]
+material = ExtResource("1_uhsxw")
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+bbcode_enabled = true
+text = "Description"
+fit_content = true
+scroll_active = false

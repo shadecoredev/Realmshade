@@ -1,0 +1,44 @@
+{
+	"name" : "cursed_soil",
+	"type" : "fight",
+	"level_range_start" : 3,
+	"level_range_end" : 8,
+	"inventory" : {
+		"items": [
+		{
+			"name": "vileshroom",
+			"position": 0
+		},
+		{
+			"name": "vileshroom",
+			"position": 32
+		},
+		{
+			"name": "vileshroom",
+			"position": 64
+		},
+		{
+			"name": "bone",
+			"position": 50
+		},
+		{
+			"name": "bone",
+			"position": 290
+		},
+		{
+			"name": "bone",
+			"position": 2
+		},
+		{
+			"name": "cleanseroot",
+			"position": 51
+		},
+		{
+			"name": "cleanseroot",
+			"position": 19
+		}
+	],
+		"size_x": 8,
+		"size_y": 5
+	}
+}

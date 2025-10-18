@@ -1,0 +1,36 @@
+{
+	"name" : "adept_adventurer",
+	"type" : "fight",
+	"level_range_start" : 5,
+	"level_range_end" : 9,
+	"inventory" : {
+		"items": [
+		{
+			"name": "copper_chestplate",
+			"position": 18
+		},
+		{
+			"name": "copper_sword",
+			"position": 0
+		},
+		{
+			"name": "healing_potion",
+			"position": 3
+		},
+		{
+			"name": "copper_helmet",
+			"position": 16
+		},
+		{
+			"name": "ruby_ring",
+			"position": 67
+		},
+		{
+			"name": "copper_pickaxe",
+			"position": 64
+		}
+	],
+		"size_x": 7,
+		"size_y": 5
+	}
+}

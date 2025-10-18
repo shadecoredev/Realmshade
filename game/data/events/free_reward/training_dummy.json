@@ -1,0 +1,13 @@
+{
+	"name" : "training_dummy",
+	"type" : "free_reward",
+	"level_range_start" : 0,
+	"level_range_end" : 1,
+	"rewards" : [
+		"stick",
+		"training_sword",
+		"wooden_shield",
+		"leather_helmet",
+		"leather_gloves"
+	]
+}

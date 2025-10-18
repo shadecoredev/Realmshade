@@ -1,0 +1,33 @@
+{
+	"name" : "ravenous_rat",
+	"type" : "fight",
+	"level_range_start" : 1,
+	"level_range_end" : 5,
+	"inventory" : {
+		"items": [
+			{
+				"name": "claws",
+				"position": 256
+			},
+			{
+				"name": "vile_meat",
+				"position": 2
+			},
+			{
+				"name": "raw_hide",
+				"position": 16
+			},
+			{
+				"name": "claws",
+				"position": 304
+			},
+			{
+				"name": "vile_meat",
+				"position": 34
+			}
+		],
+
+		"size_x": 4,
+		"size_y": 3
+	}
+}

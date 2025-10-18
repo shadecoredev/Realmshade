@@ -1,0 +1,14 @@
+{
+	"name" : "raw_hide",
+	"width" : 2,
+	"height" : 2,
+
+	"effects" : [
+		{
+			"type" : "start",
+			"health" : 15,
+			"block" : 15,
+			"purity" : 4
+		}
+	]
+}

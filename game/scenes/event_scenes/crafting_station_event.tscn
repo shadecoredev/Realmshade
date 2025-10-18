@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfoqksrbtd6fv"]
+
+[ext_resource type="Script" uid="uid://dabkdod3b5s17" path="res://scripts/events/crafting_station/crafting_station_event.gd" id="1_o87qe"]
+[ext_resource type="Texture2D" uid="uid://bf57oue0jqw0x" path="res://assets/textures/ui/panels/crafting_station.png" id="1_pigyy"]
+[ext_resource type="Script" uid="uid://d3xued4kr5f5u" path="res://scripts/ui/ui_single_slot.gd" id="2_blsd1"]
+
+[node name="Control Crafting station event" type="Control" node_paths=PackedStringArray("label", "slot_1", "slot_2", "result_container")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 144.0
+offset_bottom = 160.0
+mouse_filter = 1
+script = ExtResource("1_o87qe")
+label = NodePath("Label")
+slot_1 = NodePath("TextureRect Ingredient1")
+slot_2 = NodePath("TextureRect Ingredient2")
+result_container = NodePath("Control Result container")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 144.0
+offset_bottom = 14.0
+text = "Crafting station"
+horizontal_alignment = 1
+
+[node name="TextureRect Ingredient1" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 64.0
+offset_bottom = 96.0
+texture = ExtResource("1_pigyy")
+stretch_mode = 2
+script = ExtResource("2_blsd1")
+container_size = Vector2i(5, 5)
+
+[node name="TextureRect Ingredient2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 32.0
+offset_right = 144.0
+offset_bottom = 96.0
+texture = ExtResource("1_pigyy")
+stretch_mode = 2
+script = ExtResource("2_blsd1")
+container_size = Vector2i(5, 5)
+
+[node name="Control Result container" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 72.0
+offset_top = 128.0
+offset_right = 72.0
+offset_bottom = 128.0

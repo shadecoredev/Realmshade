@@ -1,0 +1,8 @@
+{
+	"name" : "alchemy_lab",
+	"type" : "crafting_station",
+	"level_range_start" : 2,
+	"recipes" : [
+		"cleanseroot+healstem=healing_potion"
+	]
+}

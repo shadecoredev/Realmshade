@@ -1,0 +1,18 @@
+{
+	"name" : "vileshroom",
+	"width" : 1,
+	"height" : 2,
+	
+	"tags" : [
+		"plant"
+	],
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 5,
+			"poison" : 7,
+			"self_poison" : 2
+		}
+	]
+}

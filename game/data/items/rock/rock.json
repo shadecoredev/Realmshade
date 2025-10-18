@@ -1,0 +1,17 @@
+{
+	"name" : "rock",
+	"width" : 2,
+	"height" : 1,
+
+	"tags" : [
+		"melee"
+	],
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 8,
+			"damage" : 25
+		}
+	]
+}

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bx3y70t3dn7b3"]
+
+[ext_resource type="Texture2D" uid="uid://cpc7xhuaugy4s" path="res://assets/textures/icons/marker.png" id="1_ut5v7"]
+[ext_resource type="Script" uid="uid://bqcdxsx5q0a2s" path="res://scripts/ui/ui_marker.gd" id="2_hjfat"]
+
+[node name="TextureRect Marker" type="TextureRect"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -7.0
+offset_top = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("1_ut5v7")
+stretch_mode = 2
+script = ExtResource("2_hjfat")

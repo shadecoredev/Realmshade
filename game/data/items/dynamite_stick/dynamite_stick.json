@@ -1,0 +1,18 @@
+{
+	"name" : "dynamite_stick",
+	"width" : 1,
+	"height" : 2,
+	
+	"tags" : [
+		"explosive"
+	],
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"charges" : 1,
+			"time" : 3,
+			"damage" : 30
+		}
+	]
+}

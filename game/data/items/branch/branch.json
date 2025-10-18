@@ -1,0 +1,13 @@
+{
+	"name" : "branch",
+	"width" : 1,
+	"height" : 2,
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 7,
+			"damage" : 15
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"name" : "copper_sword",
+	"width" : 1,
+	"height" : 3,
+	
+	"tags" : [
+		"melee"
+	],
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 4,
+			"damage" : 30
+		}
+	]
+}

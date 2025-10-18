@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://bv648wfihv56f"]
+
+[ext_resource type="Material" uid="uid://c2kt0gchwf3w7" path="res://assets/materials/outline/partial_outline_shader.tres" id="1_l2fwt"]
+[ext_resource type="Texture2D" uid="uid://bqymxs0ggrmrd" path="res://data/items/copper_pickaxe/copper_pickaxe.png" id="2_2wkdy"]
+[ext_resource type="Script" uid="uid://bf707q8ththgd" path="res://temp/material_test/material_test.gd" id="3_ejh4f"]
+[ext_resource type="Texture2D" uid="uid://cetp0007ebgmc" path="res://data/items/rune_of_wisdom/rune_of_wisdom.png" id="5_thk8l"]
+[ext_resource type="Texture2D" uid="uid://b0bhwextuosak" path="res://data/items/stick/stick.png" id="6_2wkdy"]
+[ext_resource type="Texture2D" uid="uid://c5ayrn23y3537" path="res://data/items/copper_sword/copper_sword.png" id="6_nhdf3"]
+
+[node name="MaterialTest" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = ExtResource("1_l2fwt")
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 16.0
+texture = ExtResource("2_2wkdy")
+script = ExtResource("3_ejh4f")
+material = ExtResource("1_l2fwt")
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+material = ExtResource("1_l2fwt")
+offset_left = 48.0
+offset_right = 64.0
+offset_bottom = 16.0
+texture = ExtResource("5_thk8l")
+stretch_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="."]
+material = ExtResource("1_l2fwt")
+offset_left = 48.0
+offset_top = -16.0
+offset_right = 64.0
+offset_bottom = 16.0
+rotation = -1.5707964
+texture = ExtResource("6_2wkdy")
+stretch_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="."]
+material = ExtResource("1_l2fwt")
+offset_left = 32.0
+offset_top = -32.0
+offset_right = 48.0
+offset_bottom = 16.0
+texture = ExtResource("6_nhdf3")
+stretch_mode = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)

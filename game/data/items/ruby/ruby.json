@@ -1,0 +1,16 @@
+{
+	"name" : "ruby",
+	"width" : 2,
+	"height" : 2,
+	
+	"tags" : [
+		"gem"
+	],
+
+	"effects" : [
+		{
+			"type" : "start",
+			"health" : 50
+		}
+	]
+}

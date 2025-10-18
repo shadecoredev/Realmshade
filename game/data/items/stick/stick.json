@@ -1,0 +1,17 @@
+{
+	"name" : "stick",
+	"width" : 1,
+	"height" : 2,
+
+	"tags" : [
+		"melee"
+	],
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 4,
+			"damage" : 12
+		}
+	]
+}

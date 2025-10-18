@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dcofqc06xashp"]
+
+[ext_resource type="Shader" uid="uid://cqmfp5jadljil" path="res://assets/shader/stylized_text/stylized_text.gdshader" id="1_3hsi8"]
+
+[sub_resource type="Gradient" id="Gradient_3hsi8"]
+offsets = PackedFloat32Array(0.4251497, 0.88251364, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.47138906, 0.4964875, 0.52996945, 1, 0.36866567, 0.4045789, 0.4524837, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_svoo7"]
+gradient = SubResource("Gradient_3hsi8")
+
+[resource]
+shader = ExtResource("1_3hsi8")
+shader_parameter/gradient_texture = SubResource("GradientTexture1D_svoo7")
+shader_parameter/start_fade = 0.0
+shader_parameter/end_fade = 14.0
+shader_parameter/repeat = 1.0

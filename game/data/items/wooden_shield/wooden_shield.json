@@ -1,0 +1,13 @@
+{
+	"name" : "wooden_shield",
+	"width" : 2,
+	"height" : 3,
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 5,
+			"block" : 25
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{
+	"name" : "poisonleaf",
+	"width" : 2,
+	"height" : 1,
+	
+	"tags" : [
+		"plant"
+	],
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 6,
+			"poison" : 4
+		}
+	]
+}

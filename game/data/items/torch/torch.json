@@ -1,0 +1,14 @@
+{
+	"name" : "torch",
+	"width" : 1,
+	"height" : 3,
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 6,
+			"damage" : 15,
+			"fire" : 5
+		}
+	]
+}

@@ -1,0 +1,13 @@
+{
+	"name" : "bone",
+	"width" : 2,
+	"height" : 1,
+
+	"effects" : [
+		{
+			"type" : "start",
+			"block" :30,
+			"self_damage" : 15
+		}
+	]
+}

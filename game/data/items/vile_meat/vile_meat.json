@@ -1,0 +1,13 @@
+{
+	"name" : "vile_meat",
+	"width" : 2,
+	"height" : 1,
+
+	"effects" : [
+		{
+			"type" : "start",
+			"health" : 30,
+			"self_poison" : 2
+		}
+	]
+}

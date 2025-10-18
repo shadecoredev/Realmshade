@@ -1,0 +1,36 @@
+{
+	"name" : "twitching_scarecrow",
+	"type" : "fight",
+	"level_range_start" : 1,
+	"level_range_end" : 5,
+	"inventory" : {
+		"items": [
+			{
+				"name": "cloth_tunic",
+				"position": 33
+			},
+			{
+				"name": "branch",
+				"position": 258
+			},
+			{
+				"name": "branch",
+				"position": 321
+			},
+			{
+				"name": "stick",
+				"position": 35
+			},
+			{
+				"name": "straw_hat",
+				"position": 16
+			},
+			{
+				"name": "soul_shard",
+				"position": 48
+			}
+		],
+		"size_x": 6,
+		"size_y": 5
+	}
+}

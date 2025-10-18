@@ -1,0 +1,36 @@
+{
+	"name" : "rock_golem",
+	"type" : "fight",
+	"level_range_start" : 2,
+	"level_range_end" : 5,
+	"inventory" : {
+		"items": [
+		{
+			"name": "rock",
+			"position": 1
+		},
+		{
+			"name": "rock",
+			"position": 65
+		},
+		{
+			"name": "rock",
+			"position": 32
+		},
+		{
+			"name": "rock",
+			"position": 35
+		},
+		{
+			"name": "ruby",
+			"position": 33
+		},
+		{
+			"name": "soul_shard",
+			"position": 64
+		}
+	],
+		"size_x": 6,
+		"size_y": 4
+	}
+}

@@ -1,0 +1,40 @@
+{
+	"name" : "crypt_ghoul",
+	"type" : "fight",
+	"level_range_start" : 2,
+	"level_range_end" : 5,
+	"inventory" : {
+		"items": [
+		{
+			"name": "regenerative_cells",
+			"position": 18
+		},
+		{
+			"name": "regenerative_cells",
+			"position": 50
+		},
+		{
+			"name": "claws",
+			"position": 257
+		},
+		{
+			"name": "claws",
+			"position": 337
+		},
+		{
+			"name": "nasty_skin",
+			"position": 32
+		},
+		{
+			"name": "bone",
+			"position": 320
+		},
+		{
+			"name": "bone",
+			"position": 272
+		}
+	],
+		"size_x": 6,
+		"size_y": 4
+	}
+}

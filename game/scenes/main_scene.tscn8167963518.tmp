@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://3txoxcmhlqf4"]
+
+[ext_resource type="Script" uid="uid://dfyjdsog1fy7v" path="res://scripts/ui_item_manager.gd" id="1_pu3yx"]
+[ext_resource type="Texture2D" uid="uid://4121s6jxng6r" path="res://assets/textures/ui/inventory/inventory_grid.png" id="1_w2twt"]
+[ext_resource type="Script" uid="uid://d0q6asix6qkpp" path="res://scripts/ui_inventory.gd" id="2_gubc5"]
+[ext_resource type="Texture2D" uid="uid://c5ayrn23y3537" path="res://assets/textures/items/copper_shortsword.png" id="2_pw63i"]
+[ext_resource type="Material" uid="uid://fs2qwxy2iiwe" path="res://assets/materials/outline/outline_shader_material.tres" id="2_rt2n2"]
+[ext_resource type="Script" uid="uid://fap0b4qblfil" path="res://scripts/ui_item.gd" id="3_7ykc4"]
+[ext_resource type="Resource" uid="uid://d2eaqt6ot8m1k" path="res://assets/resources/items/copper_shortsword.tres" id="7_c16ls"]
+
+[node name="main_scene" type="Node2D"]
+
+[node name="UIItemManager" type="Node2D" parent="."]
+script = ExtResource("1_pu3yx")
+outline_material = ExtResource("2_rt2n2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(96, 40)
+zoom = Vector2(4, 4)
+
+[node name="UIItem CopperShortsword" type="TextureRect" parent="."]
+z_index = 3
+z_as_relative = false
+custom_minimum_size = Vector2(16, 48)
+offset_left = 88.0
+offset_top = 80.0
+offset_right = 104.0
+offset_bottom = 128.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 0
+texture = ExtResource("2_pw63i")
+expand_mode = 1
+stretch_mode = 2
+script = ExtResource("3_7ykc4")
+item = ExtResource("7_c16ls")
+
+[node name="PanelContainer Inventory" type="PanelContainer" parent="."]
+z_as_relative = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 192.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("2_gubc5")
+container_size = Vector2i(12, 5)
+
+[node name="TextureRect GridTexture" type="TextureRect" parent="PanelContainer Inventory"]
+z_index = 2
+z_as_relative = false
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_w2twt")
+stretch_mode = 1

@@ -1,0 +1,9 @@
+{
+	"name" : "enchantment_room",
+	"type" : "crafting_station",
+	"level_range_start" : 2,
+	"recipes" : [
+		"branch+poisonleaf=poison_wand",
+		"amethyst+bone=doom_wand"
+	]
+}

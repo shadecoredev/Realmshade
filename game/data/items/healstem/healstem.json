@@ -1,0 +1,17 @@
+{
+	"name" : "healstem",
+	"width" : 1,
+	"height" : 2,
+	
+	"tags" : [
+		"plant"
+	],
+
+	"effects" : [
+		{
+			"type" : "cooldown",
+			"time" : 5,
+			"heal" : 20
+		}
+	]
+}
