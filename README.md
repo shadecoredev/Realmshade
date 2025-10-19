@@ -13,7 +13,7 @@ Main gameplay loop is an inventory management auto battler inspired by games lik
 
 ## Modding
 To mod the Realmshade you can just clone the repository and edit the files.
-Preferably you want to have the [Godot engine downloaded](https://godotengine.org/) to run the game.  
+You also need to have [Godot engine downloaded](https://godotengine.org/) to run the game.  
 
 Cool thing about this game is that if you mod the game ~~and don't crash it in the process~~,   you can still play the PvP matches with your own balance changes, custom items, events and any other major feature changes.  
 
