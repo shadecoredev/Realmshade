@@ -1,4 +1,4 @@
-// https://godotshaders.com/shader/warped-fractal-noise/
+// Pixelated noise effect based on https://godotshaders.com/shader/warped-fractal-noise/
 //
 // Copyright Gerardo Montaño 2025
 //
@@ -21,10 +21,15 @@
 // SOFTWARE.
 
 shader_type canvas_item;
-uniform float speed = 1.0; 
+uniform float speed = 0.1; 
 
-uniform float pixelation = 1.0;
-uniform float zoom = 1.0;
+uniform float pixelation = 8.0;
+uniform float zoom = 2.0;
+
+uniform float gradient_pixelation : hint_range(0.001, 1.0) = 0.2;
+uniform float background_threshold : hint_range(0.0, 1.0) = 0.0;
+uniform float color_low_threshold : hint_range(0.0, 1.0)  = 0.24;
+uniform float color_mid_threshold : hint_range(0.0, 1.0)  = 0.48;
 
 uniform vec4 color_low : source_color = vec4(0.01, 0.41, 0.51, 1.0); 
 uniform vec4 color_mid : source_color = vec4(.50, 0.10, 0.30, 1.0); 
@@ -74,17 +79,31 @@ vec4 colormap(float x, vec2 uv) {
 	
 	x *= (1.0 - pow(max(abs(0.5 - uv.x), abs(0.5 - uv.y)) * 2.0, 3.0));
     
-    if (x < 0.16) { 
+    if (x < background_threshold) { 
         return vec4(0.0, 0.0, 0.0, 0.0);
     }
-    else if (x < 0.32) { 
-        return color_low;
+    else if (x < color_low_threshold) { 
+        return mix(
+			vec4(0.0, 0.0, 0.0, 0.0),
+			color_low,
+			round((x - background_threshold) / (color_low_threshold - background_threshold) / gradient_pixelation) * gradient_pixelation
+		);
     }
-    else if (x < 0.64) { 
-        return color_mid;
+    else if (x < color_mid_threshold) { 
+        return 
+			mix(
+				color_low,
+				color_mid,
+				round((x - color_low_threshold) / (color_mid_threshold - color_low_threshold) / gradient_pixelation) * gradient_pixelation
+			);
     }
 	else
-		return color_high;
+		return
+			mix(
+				color_mid,
+				color_high,
+				round((x - color_mid_threshold) / (1.0 - color_mid_threshold) / gradient_pixelation) * gradient_pixelation
+			);
 }
 
 void fragment()

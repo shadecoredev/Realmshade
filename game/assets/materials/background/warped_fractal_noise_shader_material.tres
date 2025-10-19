@@ -6,7 +6,11 @@
 shader = ExtResource("1_q6uw5")
 shader_parameter/speed = 0.1
 shader_parameter/pixelation = 8.0
-shader_parameter/zoom = 2.045
+shader_parameter/zoom = 2.0
+shader_parameter/gradient_pixelation = 0.2330000110675
+shader_parameter/background_threshold = 0.0
+shader_parameter/color_low_threshold = 0.24
+shader_parameter/color_mid_threshold = 0.48
 shader_parameter/color_low = Color(0.04, 0.04, 0.04, 1)
 shader_parameter/color_mid = Color(0.08, 0.08, 0.08, 1)
 shader_parameter/color_high = Color(0.16, 0.16, 0.16, 1)

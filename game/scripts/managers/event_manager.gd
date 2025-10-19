@@ -146,7 +146,7 @@ func _update_background():
 	rng.seed = hash(_selected_event)
 	
 	var color_low_index = rng.randi() % color_pool.size()
-	var color_low = color_pool[color_low_index].darkened(0.9)
+	var color_low = color_pool[color_low_index].darkened(0.8)
 	color_pool.remove_at(color_low_index)
 
 	
