@@ -46,7 +46,7 @@ Only successfully validated players added to the leaderboard and PvP player pool
 
 That means that you can patch the game, test, add or remove new content however you want without affecting other players.  
 
-Regarding the authorization, the worst a player typing your username can do is rise your score on the leaderboard to a higher position.  
+Regarding the authorization, the worst a player typing your username can do is rise your score on the leaderboard.  
 The leaderboard only holds validated players and highest victory positions, so there's no downside of somebody playing under your username.
 
 ## Copyright
