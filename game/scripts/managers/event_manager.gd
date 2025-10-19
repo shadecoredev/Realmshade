@@ -37,6 +37,8 @@ class_name EventManager
 
 @export var event_parent : Control
 
+@export var background : ColorRect
+
 var _selected_event : String
 
 var _reward_roll_distance : float = 0.0
@@ -97,6 +99,9 @@ func _event_changed_callback(_game_manager : GameManager):
 	player_inventory.enable()
 	trash_inventory.enable()
 	
+	if game_manager.get_event() % 2 == 1:
+		_update_background()
+	
 	for button in [event_button_1, event_button_2, event_button_3]:
 		button.button_pressed = false
 	
@@ -116,6 +121,61 @@ func _event_changed_callback(_game_manager : GameManager):
 			var event = JSON.parse_string(event_file.get_as_text())
 			_handle_fight(event)
 
+func _update_background():
+	var color_pool : PackedColorArray = [
+		# AAP-64
+		Color("060608"),Color("141013"),Color("3b1725"),Color("73172d"),
+		Color("b4202a"),Color("df3e23"),Color("fa6a0a"),Color("f9a31b"),
+		Color("ffd541"),Color("fffc40"),Color("d6f264"),Color("9cdb43"),
+		Color("59c135"),Color("14a02e"),Color("1a7a3e"),Color("24523b"),
+		Color("122020"),Color("143464"),Color("285cc4"),Color("249fde"),
+		Color("20d6c7"),Color("a6fcdb"),Color("ffffff"),Color("fef3c0"),
+		Color("fad6b8"),Color("f5a097"),Color("e86a73"),Color("bc4a9b"),
+		Color("793a80"),Color("403353"),Color("242234"),Color("221c1a"),
+		Color("322b28"),Color("71413b"),Color("bb7547"),Color("dba463"),
+		Color("f4d29c"),Color("dae0ea"),Color("b3b9d1"),Color("8b93af"),
+		Color("6d758d"),Color("4a5462"),Color("333941"),Color("422433"),
+		Color("5b3138"),Color("8e5252"),Color("ba756a"),Color("e9b5a3"),
+		Color("e3e6ff"),Color("b9bffb"),Color("849be4"),Color("588dbe"),
+		Color("477d85"),Color("23674e"),Color("328464"),Color("5daf8d"),
+		Color("92dcba"),Color("cdf7e2"),Color("e4d2aa"),Color("c7b08b"),
+		Color("a08662"),Color("796755"),Color("5a4e44"),Color("423934")
+	]
+	
+	var rng = RandomNumberGenerator.new()
+	rng.seed = hash(_selected_event)
+	
+	var color_low_index = rng.randi() % color_pool.size()
+	var color_low = color_pool[color_low_index].darkened(0.9)
+	color_pool.remove_at(color_low_index)
+
+	
+	var color_high_index = rng.randi() % color_pool.size()
+	var color_high = color_pool[color_high_index].darkened(0.7)
+	color_pool.remove_at(color_high_index)
+
+	var color_func = func(color, shader_parameter):
+		background.material.set_shader_parameter(shader_parameter, color)
+
+	var tween = create_tween().set_parallel(true)
+	tween.tween_method(
+		color_func.bind("color_low"),
+		background.material.get_shader_parameter("color_low"),
+		color_low,
+		2.0
+	)
+	tween.tween_method(
+		color_func.bind("color_mid"),
+		background.material.get_shader_parameter("color_mid"),
+		color_low.lerp(color_high, 0.5),
+		2.0
+	)
+	tween.tween_method(
+		color_func.bind("color_high"),
+		background.material.get_shader_parameter("color_high"),
+		color_high,
+		2.0
+	)
 func _handle_event():
 	var event_file = FileAccess.open(_selected_event, FileAccess.READ)
 	if !event_file:
@@ -323,6 +383,9 @@ func _fight_finished_callback(victory : bool):
 		tween.tween_callback(
 			_handle_fight_reward.bind(_selected_event)
 		)
+	else:
+		fight_label.visible = true
+		fight_label.text = "You have been defeated.\nYou gain no reward."
 	tween.set_trans(Tween.TRANS_CIRC)
 	tween.set_ease(Tween.EASE_IN_OUT)
 

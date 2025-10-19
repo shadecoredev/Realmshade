@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://con2a3dyhm53r"]
+
+[ext_resource type="Shader" uid="uid://lohvhgulh4hi" path="res://assets/shader/background/warped_fractal_noise.gdshader" id="1_q6uw5"]
+
+[resource]
+shader = ExtResource("1_q6uw5")
+shader_parameter/speed = 0.1
+shader_parameter/pixelation = 8.0
+shader_parameter/zoom = 2.045
+shader_parameter/color_low = Color(0.04, 0.04, 0.04, 1)
+shader_parameter/color_mid = Color(0.08, 0.08, 0.08, 1)
+shader_parameter/color_high = Color(0.16, 0.16, 0.16, 1)
