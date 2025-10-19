@@ -71,11 +71,18 @@ func _input(event):
 			_process_dragged_item() ## Processes new rotatated state
 			_process_dragged_item() ## Checks if slots are free
 	
-	if event is InputEventKey and event.keycode == KEY_F1 and event.is_pressed():
-		if _hovered_item != null:
-			print(
-				JSON.stringify(_hovered_item.get_inventory_item().get_metadata(), "\t")
-			)
+	if event is InputEventKey and event.is_pressed():
+		if event.keycode == KEY_F1:
+			if _hovered_item != null:
+				print(
+					JSON.stringify(_hovered_item.get_inventory_item().get_metadata(), "\t")
+				)
+		elif event.keycode == KEY_F2:
+			if _hovered_inventory != null:
+				for item in _hovered_inventory.inventory.get_items():
+					printt(
+						item.get_metadata()
+					)
 
 	if _dragged_item:
 		if event is InputEventMouseMotion:

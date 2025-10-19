@@ -153,7 +153,10 @@ func update_visuals(inventory : UIInventory, fight_inventory_instance : FightInv
 		bar.size.x = ceil(bar.size.x)
 
 func clear_visuals():
-	for bar in [current_health_bar, health_bar, block_bar, poison_bar, fire_bar, shock_bar, acid_bar, doom_bar]:
+	for bar in [
+		current_health_bar, health_bar, block_bar, poison_bar, 
+		fire_bar, shock_bar, acid_bar, doom_bar,
+		absorption_bar, barrier_bar, current_barrier_bar]:
 		bar.size.x = 0.0
 	
 	for child in status_effect_container.get_children():

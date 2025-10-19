@@ -14,7 +14,6 @@ static func instantiate(class_name_string: String):
 			var script_path = global_class_info["path"]
 			var script = load(script_path) as Script
 			_saved_script_paths[class_name_string] = script_path
-			print(script_path)
 			if script:
 				var instance = script.new()
 				return instance

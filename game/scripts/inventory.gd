@@ -42,7 +42,9 @@ func add_item(inventory_item : InventoryItem, is_rotated : bool, position : Vect
 	inventory_item.set_position(position)
 	inventory_item.set_parent_inventory(self)
 	
-	_inventory_items.append(inventory_item)
+	
+	if inventory_item not in _inventory_items:
+		_inventory_items.append(inventory_item)
 	
 	for i in range(item_size.x):
 		for j in range(item_size.y):

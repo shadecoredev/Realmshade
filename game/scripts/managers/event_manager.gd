@@ -379,7 +379,7 @@ func _fight_finished_callback(victory : bool):
 			enemy_inventory.visible = false
 			enemy_label.visible = false
 			if victory:
-				_handle_fight_reward.bind(_selected_event)
+				_handle_fight_reward(_selected_event)
 			else:
 				fight_label.visible = true
 				fight_label.text = "You have been defeated.\nYou gain no reward."
