@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cn2vgqp0itllx"]
+[gd_scene load_steps=24 format=3 uid="uid://cn2vgqp0itllx"]
 
 [ext_resource type="Script" uid="uid://dw2qkl00ectck" path="res://scripts/ui/ui_health_display.gd" id="1_l8xwc"]
 
@@ -18,12 +18,36 @@ colors = PackedColorArray(0.8392157, 0.1254902, 0.16470589, 1)
 gradient = SubResource("Gradient_k6f3i")
 width = 16
 
+[sub_resource type="Gradient" id="Gradient_id3ce"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.078431375, 0.20392157, 0.39215687, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ctibh"]
+gradient = SubResource("Gradient_id3ce")
+width = 16
+
+[sub_resource type="Gradient" id="Gradient_rtaay"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.6509804, 0.9882353, 0.85882354, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_v5hba"]
+gradient = SubResource("Gradient_rtaay")
+width = 16
+
 [sub_resource type="Gradient" id="Gradient_adb74"]
 offsets = PackedFloat32Array(1)
 colors = PackedColorArray(0.54509807, 0.5764706, 0.6862745, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_58gk3"]
 gradient = SubResource("Gradient_adb74")
+width = 16
+
+[sub_resource type="Gradient" id="Gradient_v5hba"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 0.8352941, 0.25490198, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_id3ce"]
+gradient = SubResource("Gradient_v5hba")
 width = 16
 
 [sub_resource type="Gradient" id="Gradient_to7gp"]
@@ -50,6 +74,14 @@ colors = PackedColorArray(0.101960786, 0.47843137, 0.24313726, 1)
 gradient = SubResource("Gradient_u0fll")
 width = 16
 
+[sub_resource type="Gradient" id="Gradient_xs8ib"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.6117647, 0.85882354, 0.2627451, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rtaay"]
+gradient = SubResource("Gradient_xs8ib")
+width = 16
+
 [sub_resource type="Gradient" id="Gradient_l8xwc"]
 offsets = PackedFloat32Array(1)
 colors = PackedColorArray(0.2509804, 0.2, 0.3254902, 1)
@@ -58,7 +90,7 @@ colors = PackedColorArray(0.2509804, 0.2, 0.3254902, 1)
 gradient = SubResource("Gradient_l8xwc")
 width = 16
 
-[node name="Control Player health origin" type="Control" node_paths=PackedStringArray("current_health_bar", "health_bar", "block_bar", "shock_bar", "fire_bar", "poison_bar", "doom_bar", "status_effect_container", "ailment_container", "defence_container")]
+[node name="Control Player health origin" type="Control" node_paths=PackedStringArray("health_bar", "current_health_bar", "block_bar", "barrier_bar", "current_barrier_bar", "absorption_bar", "shock_bar", "fire_bar", "poison_bar", "acid_bar", "doom_bar", "status_effect_container", "ailment_container", "defense_container")]
 custom_minimum_size = Vector2(192, 4)
 layout_mode = 3
 anchors_preset = 0
@@ -66,78 +98,184 @@ offset_left = 16.0
 offset_top = -2.0
 offset_right = 16.0
 offset_bottom = 2.0
+mouse_filter = 2
 script = ExtResource("1_l8xwc")
-current_health_bar = NodePath("Control/TextureRect Player current health")
 health_bar = NodePath("Control/TextureRect Player health")
+current_health_bar = NodePath("Control/TextureRect Player current health")
 block_bar = NodePath("Control/TextureRect Player block")
+barrier_bar = NodePath("Control/TextureRect Player barrier")
+current_barrier_bar = NodePath("Control/TextureRect Player current barrier")
+absorption_bar = NodePath("Control/TextureRect Player absorption")
 shock_bar = NodePath("Control/TextureRect Player shock")
 fire_bar = NodePath("Control/TextureRect Player fire")
 poison_bar = NodePath("Control/TextureRect Player poison")
+acid_bar = NodePath("Control/TextureRect Player acid")
 doom_bar = NodePath("Control/TextureRect Player doom")
 status_effect_container = NodePath("HBoxContainer Status effects")
 ailment_container = NodePath("HBoxContainer Ailments")
-defence_container = NodePath("HBoxContainer Defences")
+defense_container = NodePath("HBoxContainer Defenses")
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect Background" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -3.0
+offset_right = 193.0
+offset_bottom = 3.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="Control" type="Control" parent="."]
 clip_contents = true
-anchors_preset = 0
+layout_mode = 1
+anchor_top = -0.5
+anchor_bottom = -0.5
 offset_right = 192.0
 offset_bottom = 4.0
+mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect Player health" type="TextureRect" parent="Control"]
-layout_mode = 0
+custom_minimum_size = Vector2(196, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0208334
+anchor_bottom = 0.5
 offset_top = -2.0
 offset_bottom = 2.0
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_adb74")
 expand_mode = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect Player current health" type="TextureRect" parent="Control"]
-layout_mode = 0
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_top = -2.0
 offset_bottom = 2.0
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_xdqt8")
 expand_mode = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="TextureRect Player block" type="TextureRect" parent="Control"]
-layout_mode = 0
+[node name="TextureRect Player barrier" type="TextureRect" parent="Control"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_top = -2.0
 offset_bottom = 2.0
+mouse_filter = 2
+texture = SubResource("GradientTexture1D_ctibh")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect Player current barrier" type="TextureRect" parent="Control"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -2.0
+offset_bottom = 2.0
+mouse_filter = 2
+texture = SubResource("GradientTexture1D_v5hba")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect Player block" type="TextureRect" parent="Control"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -2.0
+offset_bottom = 2.0
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_58gk3")
 expand_mode = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="TextureRect Player shock" type="TextureRect" parent="Control"]
-layout_mode = 0
+[node name="TextureRect Player absorption" type="TextureRect" parent="Control"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_top = -2.0
 offset_bottom = 2.0
+mouse_filter = 2
+texture = SubResource("GradientTexture1D_id3ce")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect Player shock" type="TextureRect" parent="Control"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -2.0
+offset_bottom = 2.0
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_6p3nn")
 expand_mode = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect Player fire" type="TextureRect" parent="Control"]
-layout_mode = 0
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_top = -2.0
 offset_bottom = 2.0
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_u0fll")
 expand_mode = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect Player poison" type="TextureRect" parent="Control"]
-layout_mode = 0
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_top = -2.0
 offset_bottom = 2.0
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_to7gp")
 expand_mode = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="TextureRect Player doom" type="TextureRect" parent="Control"]
-layout_mode = 0
+[node name="TextureRect Player acid" type="TextureRect" parent="Control"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_top = -2.0
 offset_bottom = 2.0
+mouse_filter = 2
+texture = SubResource("GradientTexture1D_rtaay")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect Player doom" type="TextureRect" parent="Control"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -2.0
+offset_bottom = 2.0
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_xs8ib")
 expand_mode = 1
 metadata/_edit_use_anchors_ = true
@@ -152,6 +290,7 @@ anchor_bottom = 3.5
 offset_top = -15.999992
 offset_right = 69.0
 offset_bottom = -17.0
+mouse_filter = 2
 reverse_fill = true
 metadata/_edit_use_anchors_ = true
 
@@ -166,11 +305,12 @@ offset_left = 74.0
 offset_top = -32.0
 offset_right = 170.0
 offset_bottom = -16.0
+mouse_filter = 2
 alignment = 2
 reverse_fill = true
 metadata/_edit_use_anchors_ = true
 
-[node name="HBoxContainer Defences" type="HFlowContainer" parent="."]
+[node name="HBoxContainer Defenses" type="HFlowContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.562375
@@ -181,5 +321,6 @@ offset_left = 93.976
 offset_top = 5.0
 offset_right = 201.976
 offset_bottom = 19.0
+mouse_filter = 2
 alignment = 2
 metadata/_edit_use_anchors_ = true

@@ -1,16 +1,18 @@
 extends RefCounted
-class_name StatusEffect
+class_name Defense
 
 var name : String
 var value : float
-
-var is_hidden : bool = false
+var priority : int = 0
 
 func _init(input_value : float = 0.0):
 	value = input_value
 
 func tick(_player_instance : FightInventoryInstance, _enemy_instance : FightInventoryInstance):
 	return
+
+func apply_defence(incoming_damage : float, _damage_source : String) -> float:
+	return incoming_damage
 
 func get_info() -> String:
 	return ""

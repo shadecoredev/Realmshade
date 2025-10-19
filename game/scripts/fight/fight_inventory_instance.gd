@@ -11,7 +11,7 @@ var _valid_effects : PackedStringArray = [
 var health : float = 100.0
 var current_health : float = 100.0
 
-var defences : Array[Defence] = []
+var defenses : Array[Defense] = []
 var ailments : Array[Ailment] = []
 var status_effects : Array[StatusEffect] = []
 
@@ -23,7 +23,7 @@ var _source_inventory : Inventory
 func _init():
 	health = 100.0
 	current_health = 100.0
-	defences.clear()
+	defenses.clear()
 	ailments.clear()
 	status_effects.clear()
 	cooldown_effects.clear()
@@ -53,15 +53,22 @@ func tick():
 		var status_effect = status_effects[i]
 		status_effect.tick(self, enemy)
 		
-		if status_effect.value <= 0.0:
+		if status_effect.value <= 0.5:
 			status_effects.remove_at(i)
 
 	for i in range(ailments.size()-1, -1, -1):
 		var ailment = ailments[i]
 		ailment.tick(self, enemy)
 		
-		if ailment.value <= 0.0:
+		if ailment.value <= 0.5:
 			ailments.remove_at(i)
+			
+	for i in range(defenses.size()-1, -1, -1):
+		var defense = defenses[i]
+		defense.tick(self, enemy)
+		
+		if defense.value <= 0.5:
+			defense.remove_at(i)
 
 func get_source_inventory() -> Inventory:
 	return _source_inventory
@@ -135,6 +142,11 @@ func _apply_effect(effect_json : Dictionary):
 	if "self_poison" in effect_json:
 		recieve_ailment("poison", effect_json["self_poison"])
 		
+	if "acid" in effect_json:
+		enemy.recieve_ailment("acid", effect_json["acid"])
+	if "self_acid" in effect_json:
+		recieve_ailment("acid", effect_json["self_acid"])
+
 	if "doom" in effect_json:
 		enemy.recieve_status_effect("doom", effect_json["doom"])
 	if "self_doom" in effect_json:
@@ -142,6 +154,35 @@ func _apply_effect(effect_json : Dictionary):
 
 	if "block" in effect_json:
 		increase_defence("block", effect_json["block"])
+		
+	if "absorption" in effect_json:
+		increase_defence("absorption", effect_json["absorption"])
+		
+	if "barrier" in effect_json:
+		recieve_status_effect("maximum_barrier", effect_json["barrier"])
+		increase_defence("barrier", effect_json["barrier"])
+	
+	if "restore_barrier" in effect_json:
+		var current_barrier = get_defence_value("barrier")
+		var maximum_barrier = get_status_effect_value("maximum_barrier")
+		increase_defence(
+			"barrier",
+			min(
+				effect_json["restore_barrier"],
+				maximum_barrier - current_barrier
+			)
+		)
+	
+	if "restore_barrier_percent" in effect_json:
+		var current_barrier = get_defence_value("barrier")
+		var maximum_barrier = get_status_effect_value("maximum_barrier")
+		increase_defence(
+			"barrier",
+			min(
+				maximum_barrier * effect_json["restore_barrier_percent"] * 0.01,
+				maximum_barrier - current_barrier
+			)
+		)
 
 	if "heal" in effect_json:
 		heal(effect_json["heal"])
@@ -152,28 +193,28 @@ func _apply_effect(effect_json : Dictionary):
 
 	if "regeneration" in effect_json:
 		recieve_status_effect("regeneration", effect_json["regeneration"])
-		
+
 	if "purity" in effect_json:
 		recieve_status_effect("purity", effect_json["purity"])
-		
+
 	if "fury" in effect_json:
 		recieve_status_effect("fury", effect_json["fury"])
 
 func increase_defence(defence_name : String, value : float):
-	var index = defences.find_custom(func(d): return d.name == defence_name)
+	var index = defenses.find_custom(func(d): return d.name == defence_name)
 	if index == -1:
-		var defence = InstantiateByName.instantiate(defence_name.capitalize())
-		if defence != null and defence is Defence:
-			defence.value = value
-			defences.append(defence)
-			defences.sort_custom(func(a, b): return a.priority < b.priority)
+		var defense = InstantiateByName.instantiate(defence_name.capitalize().replace(" ", ""))
+		if defense != null and defense is Defense:
+			defense.value = value
+			defenses.append(defense)
+			defenses.sort_custom(func(a, b): return a.priority < b.priority)
 	else:
-		defences[index].value += value
+		defenses[index].value += value
 
 func recieve_ailment(ailment_name : String, value : float):
 	var index = ailments.find_custom(func(d): return d.name == ailment_name)
 	if index == -1:
-		var ailment = InstantiateByName.instantiate(ailment_name.capitalize())
+		var ailment = InstantiateByName.instantiate(ailment_name.capitalize().replace(" ", ""))
 		if ailment != null and ailment is Ailment:
 			ailment.value = value
 			ailments.append(ailment)
@@ -183,7 +224,7 @@ func recieve_ailment(ailment_name : String, value : float):
 func recieve_status_effect(status_effect_name : String, value : float):
 	var index = status_effects.find_custom(func(d): return d.name == status_effect_name)
 	if index == -1:
-		var status_effect = InstantiateByName.instantiate(status_effect_name.capitalize())
+		var status_effect = InstantiateByName.instantiate(status_effect_name.capitalize().replace(" ", ""))
 		if status_effect != null and status_effect is StatusEffect:
 			status_effect.value = value
 			status_effects.append(status_effect)
@@ -196,10 +237,10 @@ func heal(value : float):
 	if current_health > health:
 		current_health = health
 
-func get_defence_value(defence_name : String) -> float:
-	var index = defences.find_custom(func(d): return d.name == defence_name)
+func get_defence_value(defense_name : String) -> float:
+	var index = defenses.find_custom(func(d): return d.name == defense_name)
 	if index != -1:
-		return defences[index].value
+		return defenses[index].value
 	return 0.0
 
 func get_ailment_value(ailment_name : String) -> float:
@@ -220,19 +261,21 @@ func recieve_damage(incoming_damage : float, damage_source : String):
 		if thorns > 0.0:
 			enemy.recieve_damage(thorns, "thorns")
 	
-	if defences.is_empty():
-		current_health -= incoming_damage
+	if defenses.is_empty():
+		current_health -= incoming_damage * (1.0 - 0.5 * float(damage_source == "acid"))
 		return
 	
-	for i in range(defences.size()-1, -1, -1):
-		var defence = defences[i]
-		incoming_damage = defence.apply_defence(incoming_damage, damage_source)
+	for i in range(defenses.size()-1, -1, -1):
+		var defense = defenses[i]
+		if damage_source == "acid":
+			incoming_damage = defense.apply_defence(incoming_damage * 2.0, damage_source) / 2.0
+		else:
+			incoming_damage = defense.apply_defence(incoming_damage, damage_source)
 
-		if defence.value <= 0.0:
-			defences.remove_at(i)
+		if defense.value < 0.5:
+			defenses.remove_at(i)
 
 		if is_zero_approx(incoming_damage):
 			return
 
-
-	current_health -= incoming_damage
+	current_health -= incoming_damage * (1.0 - 0.5 * float(damage_source == "acid"))

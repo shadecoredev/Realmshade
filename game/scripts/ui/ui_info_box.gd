@@ -103,6 +103,11 @@ func get_effects_text(effect_json : Dictionary, fight_instance : FightInventoryI
 	if "self_poison" in effect_json:
 		text += "\tSuffer [color=#1a7a3e]%d[/color][img]res://assets/textures/icons/poison.png[/img] poison\n" % effect_json["self_poison"]
 
+	if "acid" in effect_json:
+		text += "\tInflict [color=#9cdb43]%d[/color][img]res://assets/textures/icons/acid.png[/img] acid\n" % effect_json["acid"]
+	if "self_acid" in effect_json:
+		text += "\tSuffer [color=#9cdb43]%d[/color][img]res://assets/textures/icons/acid.png[/img] acid\n" % effect_json["self_acid"]
+
 	if "doom" in effect_json:
 		text += "\tInflict [color=#403353]%d[/color][img]res://assets/textures/icons/doom.png[/img] doom\n" % effect_json["doom"]
 	if "self_doom" in effect_json:
@@ -117,6 +122,18 @@ func get_effects_text(effect_json : Dictionary, fight_instance : FightInventoryI
 	if "block" in effect_json:
 		text += "\tGain [color=#8b93af]%d[/color][img]res://assets/textures/icons/block.png[/img] block\n" % effect_json["block"]
 
+	if "absorption" in effect_json:
+		text += "\tGain [color=#ffd541]%d[/color][img]res://assets/textures/icons/absorption.png[/img] absorption\n" % effect_json["absorption"]
+
+	if "barrier" in effect_json:
+		text += "\tGain [color=#a6fcdb]%d[/color][img]res://assets/textures/icons/barrier.png[/img] barrier\n" % int(effect_json["barrier"])
+	
+	if "restore_barrier" in effect_json:
+		text += "\tRestore [color=#a6fcdb]%d[/color][img]res://assets/textures/icons/barrier.png[/img] barrier\n" % int(effect_json["restore_barrier"])
+
+	if "restore_barrier_percent" in effect_json:
+		text += "\tRestore [color=#a6fcdb]%d%%[/color][img]res://assets/textures/icons/barrier.png[/img] barrier\n" % int(effect_json["restore_barrier_percent"])
+	
 	if "heal" in effect_json:
 		text += "\tHeal [color=#59c135]%d[/color][img]res://assets/textures/icons/heal.png[/img] health\n" % effect_json["heal"]
 

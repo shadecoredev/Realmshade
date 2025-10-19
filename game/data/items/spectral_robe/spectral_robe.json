@@ -1,0 +1,17 @@
+{
+	"name" : "spectral_robe",
+	"width" : 2,
+	"height" : 3,
+
+	"effects" : [
+		{
+			"type" : "start",
+			"barrier" : 100
+		},
+		{
+			"type" : "cooldown",
+			"time" : 4,
+			"restore_barrier_percent" : 10
+		}
+	]
+}

@@ -1,0 +1,13 @@
+{
+	"name" : "acidic_goo",
+	"width" : 2,
+	"height" : 2,
+
+	"effects" : [
+		{
+			"type" : "start",
+			"self_acid" : 10,
+			"acid" : 10,
+		}
+	]
+}

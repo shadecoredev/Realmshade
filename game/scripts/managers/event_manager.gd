@@ -96,8 +96,6 @@ func clear():
 func _event_changed_callback(_game_manager : GameManager):
 	clear()
 	enemy_inventory.clear()
-	player_inventory.enable()
-	trash_inventory.enable()
 	
 	if game_manager.get_event() % 2 == 1:
 		_update_background()
@@ -370,6 +368,8 @@ func _enemy_rolled_callback(data : Dictionary):
 		print("Pvp fight found: %d" % data["build_id"])
 
 func _fight_finished_callback(victory : bool):
+	player_inventory.enable()
+	trash_inventory.enable()
 	var tween = create_tween()
 	tween.tween_property(camera, "global_position", default_camera_position.global_position, 0.5).set_delay(1.0)
 	tween.tween_callback(
@@ -378,14 +378,12 @@ func _fight_finished_callback(victory : bool):
 			enemy_inventory.clear()
 			enemy_inventory.visible = false
 			enemy_label.visible = false
+			if victory:
+				_handle_fight_reward.bind(_selected_event)
+			else:
+				fight_label.visible = true
+				fight_label.text = "You have been defeated.\nYou gain no reward."
 	)
-	if victory:
-		tween.tween_callback(
-			_handle_fight_reward.bind(_selected_event)
-		)
-	else:
-		fight_label.visible = true
-		fight_label.text = "You have been defeated.\nYou gain no reward."
 	tween.set_trans(Tween.TRANS_CIRC)
 	tween.set_ease(Tween.EASE_IN_OUT)
 
