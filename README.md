@@ -19,8 +19,9 @@ Cool thing about this game is that if you mod the game ~~and don't crash the gam
 
 The idea behind it is that you can make some additions and test them directly by playing the game, then make a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) to propose the changes into the original game.
 
-All gameplay data like events and items are located in [`Realmshade/game/data/`](https://github.com/shadecoredev/Realmshade/tree/main/game/data) folder.  
-Each game entity is stored as a json file. New items can be added by creating new entries in this `data/` folder.  
+All gameplay entities like items and events are located in [`Realmshade/game/data/`](https://github.com/shadecoredev/Realmshade/tree/main/game/data) folder.  
+Each game entity is stored as a JSON file.  
+New items can be added by creating new entries in this `data/` folder.  
 
 I will add docs on creating new content once the stable realease version will be completed.
 
@@ -40,7 +41,7 @@ This way each item holds a history of how it was acquired and can be compared to
 
 Main cheating detection happens at the server.  
 When you win, you send your username, seed value and metadata of each item you own in your inventory.  
-The server processes the data to determine if your items correspond to your seed then runs a fight to deterine if you actually won it.  
+The server processes the data to determine if your items correspond to your seed then runs your fight to deterine if you actually won it.  
 Only successfully validated players added to the leaderboard and PvP player pool.  
 
 That means that you can patch the game, test, add or remove new content however you want without affecting other players.  
