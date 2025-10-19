@@ -12,7 +12,7 @@ Realmshade is an open-source game created as an experiment of a fully moddable m
 Main gameplay loop is an inventory management auto battler inspired by games like [Backpack Hero](https://store.steampowered.com/app/1970580/Backpack_Hero/), [Backpack Battles](https://store.steampowered.com/app/2427700/Backpack_Battles/) and [The Bazaar](https://store.steampowered.com/app/1617400/The_Bazaar/).
 
 ## Modding
-To mod the game you can just clone the repository and edit the files.
+To mod the Realmshade you can just clone the repository and edit the files.
 Preferably you want to have the [Godot engine downloaded](https://godotengine.org/) to run the game.  
 
 Cool thing about this game is that if you mod the game ~~and don't crash it in the process~~,   you can still play the PvP matches with your own balance changes, custom items, events and any other major feature changes.  
@@ -26,7 +26,7 @@ New items can be added by creating new entries in this `data/` folder.
 I will add docs on creating new content once the stable realease version will be completed.
 
 ## Cheating
-It's running without any anticheats or authorization, so why wouldn't someone just edit the code to set a weapon's damage to 1 billion, duplicate items and cheat a high score?  
+Realmshade is running without any anticheats or authorization, so why wouldn't someone just edit the code to set a weapon's damage to 1 billion, duplicate items and cheat a high score?  
 
 There are several design decisions made to prevent cheating and griefing possible.  
 
