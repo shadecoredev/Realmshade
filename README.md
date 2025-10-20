@@ -29,7 +29,7 @@ I will add docs on creating new content once the stable realease version will be
 ## Cheating
 Realmshade is running without any client anticheats or authorization, so why wouldn't someone just edit the code to set a weapon's damage to 1 billion, duplicate items and cheat a high score?  
 
-There are several design decisions made to prevent cheating and griefing possible.  
+There are several design decisions made to prevent cheating and griefing.  
 
 Every event, PvE encounter, PvP fight, shop item and reward is determined by a RNG with a starting seed value, a random 64-bit integer number.  
 Each item holds metadata of the event where it was acquired:
