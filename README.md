@@ -27,7 +27,7 @@ New items can be added by creating new entries in this `data/` folder.
 I will add docs on creating new content once the stable realease version will be completed.
 
 ## Cheating
-Realmshade is running without any anticheats or authorization, so why wouldn't someone just edit the code to set a weapon's damage to 1 billion, duplicate items and cheat a high score?  
+Realmshade is running without any client anticheats or authorization, so why wouldn't someone just edit the code to set a weapon's damage to 1 billion, duplicate items and cheat a high score?  
 
 There are several design decisions made to prevent cheating and griefing possible.  
 
