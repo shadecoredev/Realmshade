@@ -30,7 +30,7 @@ Realmshade is running without any anticheats or authorization, so why wouldn't s
 
 There are several design decisions made to prevent cheating and griefing possible.  
 
-Every event, PvE encounter, PvP fight, shop item and reward is determined by a RNG with a starting seed value, a 64-bit integer number.  
+Every event, PvE encounter, PvP fight, shop item and reward is determined by a RNG with a starting seed value, a random 64-bit integer number.  
 Each item holds metadata of the event where it was acquired:
 - When you craft items together, the resulting item holds metadata of the ingredients;  
 - When you sell an item to gain gold, the resulting coin holds metadata of the sold item;  
