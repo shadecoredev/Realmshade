@@ -9,7 +9,8 @@ With the help of [Github Pages](https://docs.github.com/en/pages/getting-started
 
 ## Overview
 Realmshade is an open-source game created as an experiment of a fully moddable multiplayer game.  
-Main gameplay loop is an inventory management auto battler inspired by games like [Backpack Hero](https://store.steampowered.com/app/1970580/Backpack_Hero/), [Backpack Battles](https://store.steampowered.com/app/2427700/Backpack_Battles/) and [The Bazaar](https://store.steampowered.com/app/1617400/The_Bazaar/).
+Main gameplay loop is an inventory management auto battler inspired by games like [Backpack Hero](https://store.steampowered.com/app/1970580/Backpack_Hero/), [Backpack Battles](https://store.steampowered.com/app/2427700/Backpack_Battles/) and [The Bazaar](https://store.steampowered.com/app/1617400/The_Bazaar/).  
+You collect items to fill your inventory. Each item has some combat effect like gaining armor, dealing damage or inflicting ailments. During battle each player activates their items to defeat the opponent by reducing their health to zero.
 
 ## Modding
 To mod the Realmshade you can just clone the repository and edit the files.
