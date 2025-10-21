@@ -12,6 +12,7 @@ class_name EventManager
 @export var event_reward_container : Control
 @export var event_reward_center : Control
 @export var event_reward_roll_parent : Control
+@export var event_reward_label : Label
 
 @export var event_reward_take_button : Button
 @export var event_reward_gamble_button : Button
@@ -50,7 +51,7 @@ var _reward_gamble_count : int
 
 func _process(delta):
 	if _reward_roll_distance > 0.5:
-		_reward_roll_distance -= _reward_roll_distance * delta * 5.0 # Roll speed
+		_reward_roll_distance -= _reward_roll_distance * delta * 4.0 # Roll speed
 		event_reward_roll_parent.position.x = _reward_roll_distance + 73.0 + _roll_offset
 	else:
 		_reward_roll_distance = 0.0
@@ -229,6 +230,7 @@ func _handle_event_choice():
 		)
 
 func _handle_reward(reward_pool : Array, gamble_count : int = 0):
+	event_reward_label.text = ""
 	for child in event_reward_roll_parent.get_children():
 		child.queue_free()
 	
@@ -279,10 +281,20 @@ func _handle_reward(reward_pool : Array, gamble_count : int = 0):
 
 func _reward_roll_finished_callback():
 	if _reward_item == null:
+		event_reward_label.text = "Failed to reroll the reward"
 		event_reward_take_button.visible = false
 		event_reward_gamble_button.visible = false
 		proceed_button.disabled = false
 	else:
+		if _reward_gamble_count == 0:
+			
+			event_reward_label.text = "Take reward or reroll for a different one with %d%% chance of failure" % int(
+				game_manager.get_gamble_failure_chance(_reward_gamble_count + 1) * 100.0
+			)
+		else:
+			event_reward_label.text = "%d%% chance of reroll failure" % int(
+				game_manager.get_gamble_failure_chance(_reward_gamble_count + 1) * 100.0
+			)
 		if game_manager.get_item_pool(
 				game_manager.get_level(),
 				game_manager.get_event(),
@@ -300,6 +312,18 @@ func _reward_roll_finished_callback():
 func update_event_button(button : Button, event_filepath : String):
 	button.text = event_filepath.get_file().get_basename().capitalize()
 	button.set_meta("event_filepath", event_filepath)
+	
+	var event_file = FileAccess.open(event_filepath, FileAccess.READ)
+	if !event_file:
+		printerr("Error reading event: %s" % event_filepath)
+		return
+	var event = JSON.parse_string(event_file.get_as_text())
+	
+	var button_icon = button.get_node("TextureRect Event Icon")
+	if !button_icon:
+		printerr("Button icon not found.")
+	else:
+		button_icon.texture = load("res://assets/textures/icons/events/%s.png" % event["type"])
 
 func _event_button_pressed_callback(button : Button):
 	var any_event_button_pressed = false
@@ -323,6 +347,7 @@ func select_event(event_filepath : String):
 	_selected_event = event_filepath
 
 func _reward_take_button_pressed_callback():
+	event_reward_label.text = ""
 	if _reward_item:
 		_reward_item.reparent(event_reward_container)
 		_reward_item.enable()
@@ -338,7 +363,7 @@ func _reward_gamble_button_pressed_callback():
 	_handle_reward(_reward_pool, _reward_gamble_count)
 
 func _handle_fight(event : Dictionary):
-	enemy_inventory.set_inventory_size(Vector2i(event["inventory"]["size_x"], event["inventory"]["size_y"]))
+	enemy_inventory.set_inventory_size(Vector2i(event["inventory"]["width"], event["inventory"]["height"]))
 	enemy_inventory.load_from_json(event["inventory"]["items"])
 	enemy_inventory.visible = true
 	enemy_label.visible = true

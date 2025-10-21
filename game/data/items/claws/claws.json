@@ -3,6 +3,10 @@
 	"width" : 2,
 	"height" : 1,
 
+	"tags" : [
+		"melee"
+	],
+
 	"effects" : [
 		{
 			"type" : "cooldown",

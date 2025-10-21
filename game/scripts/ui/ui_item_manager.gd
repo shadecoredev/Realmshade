@@ -21,7 +21,15 @@ var _last_hovered_inventory_position : Vector2i
 
 var _item_info : UIInfoBox
 
+@export var drag_effect_particles : GPUParticles2D
+var _displaying_drag_effect : bool = false
+
+func _process(_delta):
+	if _displaying_drag_effect:
+		drag_effect_particles.global_position = _dragged_item.global_position + _dragged_item.size * 0.5
+
 func _ready() -> void:
+	drag_effect_particles.emitting = false
 	_instance = self
 
 static func get_instance() -> UIItemManager:
@@ -30,11 +38,45 @@ static func get_instance() -> UIItemManager:
 func get_dragged_item() -> UIItem:
 	return _dragged_item
 
+func _dragged_item_rotated_callback(is_rotated : bool):
+	if is_rotated:
+		drag_effect_particles.process_material.emission_shape_scale = Vector3(_dragged_item.size.y * 0.5, _dragged_item.size.x * 0.5, 0.0)
+		drag_effect_particles.process_material.emission_shape_offset = Vector3(
+			-_dragged_item.size.x * 0.5 + _dragged_item.size.y * 0.5,
+			-_dragged_item.size.y * 0.5 - _dragged_item.size.x * 0.5,
+			0.0
+		)
+
+	else:
+		drag_effect_particles.process_material.emission_shape_scale = Vector3(_dragged_item.size.x * 0.5, _dragged_item.size.y * 0.5, 0.0)
+		drag_effect_particles.process_material.emission_shape_offset = Vector3.ZERO
+	
+
+func display_dragged_item_effect():
+	if _dragged_item == null:
+		return
+	_displaying_drag_effect = true
+	drag_effect_particles.emitting = true
+	
+	_dragged_item.item_rotated_signal.connect(_dragged_item_rotated_callback)
+	_dragged_item_rotated_callback(_dragged_item.is_rotated())
+	
+func remove_dragged_item_effect():
+	if _dragged_item == null:
+		return
+	_displaying_drag_effect = false
+	drag_effect_particles.emitting = false
+	
+	_dragged_item.item_rotated_signal.disconnect(_dragged_item_rotated_callback)
+
 func start_dragging(item : UIItem):
 	if _item_info:
 		_item_info.remove()
 
 	_dragged_item = item
+	
+	display_dragged_item_effect()
+	
 	var global_pos = _dragged_item.global_position
 	_dragged_item.top_level = true
 	_item_drag_start_position = _dragged_item.position
@@ -45,7 +87,7 @@ func start_dragging(item : UIItem):
 
 	if _dragged_item.get_parent() is UISingleSlot:
 		var inventory = _dragged_item.get_parent() as UIInventory
-		inventory.remove_item(Vector2.ZERO)
+		inventory.remove_item(_dragged_item)
 	elif _dragged_item.get_parent() is UIInventory:
 		var inventory = _dragged_item.get_parent() as UIInventory
 		var inventory_pos = Vector2i.ZERO
@@ -55,10 +97,7 @@ func start_dragging(item : UIItem):
 		inventory_pos.x = roundf(_item_drag_start_position.x / 16.0) * 16.0
 		inventory_pos.y = roundf((_item_drag_start_position.y) / 16.0) * 16.0
 		
-		if item.is_rotated():
-			inventory.remove_item((_item_drag_start_position - Vector2(0.0, item.size.x)) / 16.0)
-		else:
-			inventory.remove_item(_item_drag_start_position / 16.0)
+		inventory.remove_item(_dragged_item)
 
 	trash_inventory.visible = true
 	
@@ -96,6 +135,10 @@ func _process_dragged_item():
 
 	var pos = get_global_mouse_position() 
 	if _hovered_inventory == null:
+		outline_material.set_shader_parameter(
+			"outline_color",
+			Color.WHITE
+		)
 		if _dragged_item.is_rotated():
 			_dragged_item.global_position = get_global_mouse_position() - Vector2(_dragged_item.size.y, -_dragged_item.size.x) * 0.5
 		else:
@@ -152,6 +195,8 @@ func _process_dragged_item():
 		_dragged_item.global_position = pos
 
 func _release_dragged_item():
+	remove_dragged_item_effect()
+	
 	_dragged_item.top_level = false
 	_dragged_item.z_index = 3
 	if _hovered_inventory == null:
@@ -217,8 +262,6 @@ func clear_hovered_item_info_box():
 
 func unselect_hovered_inventory():
 	_hovered_inventory = null
-	if _dragged_item:
-		_dragged_item.material = null
 
 func add_item_to_inventory(ui_item : UIItem, is_rotated : bool, pos : Vector2i, inventory : UIInventory):
 	ui_item.reparent(inventory)

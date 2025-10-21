@@ -139,7 +139,7 @@ func roll_reward(level : int, event : int, reward_pool : Array, gamble_count : i
 	
 	var rolled_reward_index = _rng.randi() % (reward_pool.size())
 	
-	if _rng.randf() <= [-1.0, 0.2, 0.4, 0.6, 0.8, 1.0][gamble_count]:
+	if _rng.randf() <= get_gamble_failure_chance(gamble_count):
 		return ""
 	
 	return reward_pool[rolled_reward_index]
@@ -150,8 +150,11 @@ func roll_fake_reward(level : int, event : int, reward_pool : Array, gamble_coun
 		printerr("Reward pool is empty")
 		return ""
 	
-	if randf() <= [-1.0, 0.2, 0.4, 0.6, 0.8, 1.0][gamble_count]:
+	if randf() <= get_gamble_failure_chance(gamble_count):
 		return ""
 	var rolled_reward_index = randi() % (reward_pool.size())
 	
 	return reward_pool[rolled_reward_index]
+
+func get_gamble_failure_chance(gamble_count : int) -> float:
+	return [-1.0, 0.2, 0.4, 0.6, 0.8, 1.0][gamble_count]

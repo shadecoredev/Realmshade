@@ -19,6 +19,7 @@ func initialize(item_name : String, metadata : Dictionary = {}):
 	if item:
 		texture = item.texture
 		size = texture.get_size()
+		pivot_offset = size * 0.5
 	else:
 		printerr("Item \"%s\" not recognized." % item_name)
 		queue_free()

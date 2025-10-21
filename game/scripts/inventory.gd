@@ -54,9 +54,7 @@ func add_item(inventory_item : InventoryItem, is_rotated : bool, position : Vect
 			_slots[position.x + i][position.y + j] = inventory_item
 
 
-func remove_item(position : Vector2i) -> InventoryItem:
-	var inventory_item : InventoryItem = _slots[position.x][position.y]
-
+func remove_item(inventory_item : InventoryItem) -> InventoryItem:
 	if inventory_item == null:
 		return
 		
@@ -67,16 +65,11 @@ func remove_item(position : Vector2i) -> InventoryItem:
 
 	_inventory_items.remove_at(array_index)
 	
-	var item_size : Vector2i = inventory_item.get_item().get_size(inventory_item.is_rotated())
-	var origin = inventory_item.get_position()
+	for i in range(0, _size.x):
+		for j in range(0, _size.y):
+			if _slots[i][j] == inventory_item:
+				_slots[i][j] = null
 	
-	for i in range(origin.x, origin.x + item_size.x):
-		for j in range(origin.y, origin.y + item_size.y):
-			if i >= _size.x or i < 0 or j >= _size.y or j < 0:
-				printerr("Invalid item removal (%s)." % str(position))
-				continue
-			_slots[i][j] = null
-			
 	return inventory_item
 
 func stringify(indent: String = "") -> String:
@@ -96,5 +89,5 @@ func get_items() -> Array[InventoryItem]:
 
 func clear():
 	for item in _inventory_items:
-		remove_item(item.get_position())
+		remove_item(item)
 	_inventory_items.clear()

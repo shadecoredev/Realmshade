@@ -27,7 +27,7 @@
 			}
 		],
 
-		"size_x": 4,
-		"size_y": 3
+		"width": 4,
+		"height": 3
 	}
 }

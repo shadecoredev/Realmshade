@@ -37,8 +37,8 @@ func can_add_item(item : UIItem, is_rotated : bool, pos : Vector2i) -> bool:
 func add_item(inventory_item : InventoryItem, is_rotated : bool, pos : Vector2i):
 	return inventory.add_item(inventory_item, is_rotated, pos)
 
-func remove_item(pos : Vector2i):
-	inventory.remove_item(pos)
+func remove_item(item : UIItem):
+	inventory.remove_item(item.get_inventory_item())
 
 func _on_game_manager_level_increased_signal(source : GameManager):
 	set_inventory_size(source.get_inventory_size_by_level(source.get_level()))
