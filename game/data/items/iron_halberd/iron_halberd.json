@@ -1,0 +1,22 @@
+{
+	"name" : "iron_halberd",
+	"width" : 2,
+	"height" : 5,
+
+	"tags" : [
+		"melee"
+	],
+
+	"effects" : [
+		{
+			"type" : "start",
+			"damage" : 150
+		},
+		{
+			"type" : "cooldown",
+			"time" : 7,
+			"damage" : 150,
+			"fury" : 15
+		}
+	]
+}

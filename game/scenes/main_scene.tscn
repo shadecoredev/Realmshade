@@ -87,7 +87,7 @@ drag_effect_particles = NodePath("CPUParticles2D")
 [node name="CPUParticles2D" type="GPUParticles2D" parent="UIItemManager"]
 z_index = 1
 position = Vector2(-16, 8)
-amount = 4
+amount = 16
 lifetime = 0.5
 explosiveness = 0.25
 randomness = 0.25
@@ -256,8 +256,8 @@ text = "Event 1"
 [node name="TextureRect Event Icon" type="TextureRect" parent="VBoxContainer Event selection/Button Event 1"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 0
-offset_left = 128.0
-offset_right = 144.0
+offset_left = 127.0
+offset_right = 143.0
 offset_bottom = 16.0
 
 [node name="Button Event 2" type="Button" parent="VBoxContainer Event selection"]
@@ -270,8 +270,8 @@ text = "Event 2"
 [node name="TextureRect Event Icon" type="TextureRect" parent="VBoxContainer Event selection/Button Event 2"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 0
-offset_left = 128.0
-offset_right = 144.0
+offset_left = 127.0
+offset_right = 143.0
 offset_bottom = 16.0
 
 [node name="Button Event 3" type="Button" parent="VBoxContainer Event selection"]
@@ -285,8 +285,8 @@ text = "Event 3"
 [node name="TextureRect Event Icon" type="TextureRect" parent="VBoxContainer Event selection/Button Event 3"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 0
-offset_left = 128.0
-offset_right = 144.0
+offset_left = 127.0
+offset_right = 143.0
 offset_bottom = 16.0
 
 [node name="Control Proceed" type="Control" parent="."]

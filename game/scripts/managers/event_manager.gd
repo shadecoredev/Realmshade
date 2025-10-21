@@ -245,7 +245,7 @@ func _handle_reward(reward_pool : Array, gamble_count : int = 0):
 		var fake_item = UIItemManager.get_instance().spawn_item(fake_reward)
 		event_reward_roll_parent.add_child(fake_item)
 		fake_item.z_index = -1
-		fake_item.position = Vector2(-40.0 * (i+1), 0.0) - fake_item.texture.get_size() * 0.5
+		fake_item.position = Vector2(-48.0 * (i+1), 0.0) - fake_item.texture.get_size() * 0.5
 		fake_item.disable()
 	
 	for i in range(3):
@@ -255,7 +255,7 @@ func _handle_reward(reward_pool : Array, gamble_count : int = 0):
 		var fake_item = UIItemManager.get_instance().spawn_item(fake_reward)
 		event_reward_roll_parent.add_child(fake_item)
 		fake_item.z_index = -1
-		fake_item.position = Vector2(40.0 * (i+1), 0.0) - fake_item.texture.get_size() * 0.5
+		fake_item.position = Vector2(48.0 * (i+1), 0.0) - fake_item.texture.get_size() * 0.5
 		fake_item.disable()
 
 	var reward = game_manager.roll_reward(game_manager.get_level(), game_manager.get_event(), reward_pool, gamble_count)

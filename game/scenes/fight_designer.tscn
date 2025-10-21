@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b1iyh6nt3gjou"]
+[gd_scene load_steps=22 format=3 uid="uid://b1iyh6nt3gjou"]
 
 [ext_resource type="Script" uid="uid://sgws6qjtv6mk" path="res://scripts/managers/game_file_verifier.gd" id="1_55edb"]
 [ext_resource type="Script" uid="uid://cj36cjoo4751e" path="res://scripts/managers/api_manager.gd" id="1_ho3eq"]
@@ -9,6 +9,7 @@
 [ext_resource type="Material" uid="uid://fs2qwxy2iiwe" path="res://assets/materials/outline/outline_shader_material.tres" id="5_41ocu"]
 [ext_resource type="PackedScene" uid="uid://hhwydbml1pxj" path="res://scenes/templates/item_template.tscn" id="6_x5jd4"]
 [ext_resource type="Script" uid="uid://d0q6asix6qkpp" path="res://scripts/ui/ui_inventory.gd" id="8_3u463"]
+[ext_resource type="Material" uid="uid://con2a3dyhm53r" path="res://assets/materials/background/warped_fractal_noise_shader_material.tres" id="9_2s12t"]
 [ext_resource type="Texture2D" uid="uid://4121s6jxng6r" path="res://assets/textures/ui/inventory/inventory_grid.png" id="9_tj5av"]
 [ext_resource type="Script" uid="uid://cnd3pfhmh386n" path="res://scripts/ui/ui_item_selector.gd" id="11_gtgx7"]
 [ext_resource type="Script" uid="uid://6l4padk4mp5u" path="res://scripts/ui/ui_event_selector.gd" id="12_1wa4a"]
@@ -19,6 +20,16 @@
 [ext_resource type="PackedScene" uid="uid://cn2vgqp0itllx" path="res://scenes/templates/health_display.tscn" id="19_8pxfq"]
 [ext_resource type="Texture2D" uid="uid://cjoeqqi3l8tn6" path="res://assets/textures/ui/panels/reward.png" id="20_2s12t"]
 [ext_resource type="Script" uid="uid://8ign16bjr6ni" path="res://scripts/debug/ui_debug_inventory_export.gd" id="22_yspe6"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8pxfq"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+spread = 180.0
+initial_velocity_min = 4.0
+initial_velocity_max = 24.0
+gravity = Vector3(0, 0, 0)
+turbulence_enabled = true
 
 [node name="main_scene" type="Node2D"]
 
@@ -39,7 +50,7 @@ player_health_display = NodePath("../Control Player health")
 enemy_health_display = NodePath("../Control Enemy health")
 metadata/_custom_type_script = "uid://bymfoc07b35y1"
 
-[node name="EventManager" type="Node2D" parent="." node_paths=PackedStringArray("camera", "api_manager", "game_manager", "fight_manager", "event_choice_container", "event_reward_container", "event_reward_center", "event_reward_roll_parent", "event_reward_take_button", "event_reward_gamble_button", "event_button_1", "event_button_2", "event_button_3", "proceed_button", "trash_inventory", "player_inventory", "enemy_inventory", "enemy_label", "default_camera_position", "fight_camera_position", "fight_label", "event_parent")]
+[node name="EventManager" type="Node2D" parent="." node_paths=PackedStringArray("camera", "api_manager", "game_manager", "fight_manager", "event_choice_container", "event_reward_container", "event_reward_center", "event_reward_roll_parent", "event_reward_label", "event_reward_take_button", "event_reward_gamble_button", "event_button_1", "event_button_2", "event_button_3", "proceed_button", "trash_inventory", "player_inventory", "enemy_inventory", "enemy_label", "default_camera_position", "fight_camera_position", "fight_label", "event_parent", "background")]
 script = ExtResource("4_8pxfq")
 camera = NodePath("../Camera2D")
 api_manager = NodePath("../APIManager")
@@ -49,6 +60,7 @@ event_choice_container = NodePath("../VBoxContainer Event selection")
 event_reward_container = NodePath("../TextureRect Reward")
 event_reward_center = NodePath("../TextureRect Reward/Control Center")
 event_reward_roll_parent = NodePath("../TextureRect Reward/Control Center/Control Roll parent")
+event_reward_label = NodePath("../TextureRect Reward/Label")
 event_reward_take_button = NodePath("../TextureRect Reward/Button Take")
 event_reward_gamble_button = NodePath("../TextureRect Reward/Button Gamble")
 event_button_1 = NodePath("../VBoxContainer Event selection/Button Event 1")
@@ -63,6 +75,7 @@ default_camera_position = NodePath("../Control Default camera position")
 fight_camera_position = NodePath("../Control Fight camera position")
 fight_label = NodePath("../Label Fight label")
 event_parent = NodePath("../Control Event parent")
+background = NodePath("../Camera2D/TextureRect Background")
 metadata/_custom_type_script = "uid://4v4lxtijmd7q"
 
 [node name="APIManager" type="Node" parent="." node_paths=PackedStringArray("game_manager")]
@@ -85,15 +98,39 @@ offset_right = 370.0
 offset_bottom = 240.0
 text = "Randomize seed"
 
-[node name="UIItemManager" type="Node2D" parent="." node_paths=PackedStringArray("trash_inventory")]
+[node name="UIItemManager" type="Node2D" parent="." node_paths=PackedStringArray("trash_inventory", "drag_effect_particles")]
 script = ExtResource("4_5yrbq")
 outline_material = ExtResource("5_41ocu")
 item_template = ExtResource("6_x5jd4")
 trash_inventory = NodePath("../TextureButton Trash")
+drag_effect_particles = NodePath("CPUParticles2D")
+
+[node name="CPUParticles2D" type="GPUParticles2D" parent="UIItemManager"]
+z_index = 1
+position = Vector2(-16, 8)
+amount = 16
+lifetime = 0.5
+explosiveness = 0.25
+randomness = 0.25
+process_material = SubResource("ParticleProcessMaterial_8pxfq")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(224, 128)
 zoom = Vector2(2.571, 2.571)
+
+[node name="TextureRect Background" type="ColorRect" parent="Camera2D"]
+z_index = -1000
+material = ExtResource("9_2s12t")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -224.0
+offset_top = -126.0
+offset_right = 224.0
+offset_bottom = 126.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="Label Player name" type="Label" parent="."]
 material = ExtResource("15_crqjd")
@@ -336,6 +373,15 @@ offset_right = 145.0
 offset_bottom = 113.0
 text = "Reroll"
 
+[node name="Label" type="Label" parent="TextureRect Reward"]
+layout_mode = 0
+offset_top = 114.0
+offset_right = 144.0
+offset_bottom = 178.0
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
 [node name="Control Default camera position" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
@@ -382,7 +428,7 @@ offset_left = 288.0
 offset_top = 16.0
 offset_right = 432.0
 offset_bottom = 176.0
-mouse_filter = 1
+mouse_filter = 2
 
 [connection signal="pressed" from="APIManager/Button Roll enemy" to="APIManager" method="roll_enemy"]
 [connection signal="pressed" from="APIManager/Button Randomize seed" to="GameManager" method="reset_seed"]

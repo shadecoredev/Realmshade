@@ -1,0 +1,18 @@
+{
+	"name" : "iron_helmet",
+	"width" : 2,
+	"height" : 2,
+	
+	"tags" : [
+		"armor"
+	],
+
+	"effects" : [
+		{
+			"type" : "start",
+			"health" : 80,
+			"absorption" : 80,
+			"block" : 160,
+		}
+	]
+}
