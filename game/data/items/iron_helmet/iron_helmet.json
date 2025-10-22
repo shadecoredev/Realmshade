@@ -10,7 +10,7 @@
 	"effects" : [
 		{
 			"type" : "start",
-			"health" : 80,
+			"damage_resistance" : 10,
 			"absorption" : 80,
 			"block" : 160,
 		}

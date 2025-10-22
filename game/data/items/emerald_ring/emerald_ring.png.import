@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gosvmes0mm83"
-path="res://.godot/imported/weakness.png-ef537ed727631498e67b84c9f9dd1f43.ctex"
+uid="uid://cvcvr7q71nr1a"
+path="res://.godot/imported/emerald_ring.png-1a1b0a57ee013a868e5cfa24da680b44.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/icons/weakness.png"
-dest_files=["res://.godot/imported/weakness.png-ef537ed727631498e67b84c9f9dd1f43.ctex"]
+source_file="res://data/items/emerald_ring/emerald_ring.png"
+dest_files=["res://.godot/imported/emerald_ring.png-1a1b0a57ee013a868e5cfa24da680b44.ctex"]
 
 [params]
 

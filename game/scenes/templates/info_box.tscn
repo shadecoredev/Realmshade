@@ -13,9 +13,9 @@ texture_margin_bottom = 7.0
 
 [node name="Control" type="Control" node_paths=PackedStringArray("title_label", "main_label")]
 layout_mode = 3
-anchor_right = 0.15300001
+anchor_right = 0.16700001
 anchor_bottom = 0.060000002
-offset_right = -0.25601196
+offset_right = -0.38401794
 offset_bottom = 0.11999893
 script = ExtResource("1_uns6c")
 title_label = NodePath("Label Title")
@@ -24,10 +24,10 @@ main_label = NodePath("Panel/VBoxContainer/RichTextLabel Main text")
 [node name="Label Title" type="Label" parent="."]
 z_index = 51
 material = ExtResource("1_uhsxw")
-custom_minimum_size = Vector2(160, 0)
 layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
+anchors_preset = -1
+anchor_right = 0.75000006
+offset_right = -1.5258789e-05
 offset_bottom = 14.0
 grow_horizontal = 2
 size_flags_horizontal = 4
@@ -39,8 +39,9 @@ horizontal_alignment = 1
 z_index = 50
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.9983612
-anchor_bottom = 0.8119793
+anchor_left = 0.000187492
+anchor_right = 0.8321042
+anchor_bottom = 0.99935913
 offset_left = -0.035998464
 offset_right = 0.23599243
 offset_bottom = 0.024993896
@@ -52,7 +53,6 @@ layout_mode = 2
 
 [node name="RichTextLabel Main text" type="RichTextLabel" parent="Panel/VBoxContainer"]
 material = ExtResource("1_uhsxw")
-custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 bbcode_enabled = true
 text = "Description"

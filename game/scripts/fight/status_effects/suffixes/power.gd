@@ -1,19 +1,17 @@
-extends RefCounted
-class_name StatusEffect
+extends StatusEffect
+class_name Power
 
-var name : String
-var value : float
-
-var is_hidden : bool = false
+var effect_name : String
 
 func _init(input_value : float = 0.0):
-	value = input_value
+	name = "power"
+	super._init(input_value)
 
 func tick(_player_instance : FightInventoryInstance, _enemy_instance : FightInventoryInstance):
-	return
+	pass
 
 func get_info() -> String:
 	return ""
 
 func get_value() -> float:
-	return value
+	return  value

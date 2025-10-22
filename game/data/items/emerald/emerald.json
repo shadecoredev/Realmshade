@@ -10,7 +10,7 @@
 	"effects" : [
 		{
 			"type" : "start",
-			"poison" : 5,
+			"poison_resistance" : 25,
 		}
 	]
 }

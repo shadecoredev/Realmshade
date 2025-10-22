@@ -21,6 +21,3 @@ func apply_defence(incoming_damage : float, _damage_source : String) -> float:
 
 func get_info() -> String:
 	return ""
-
-func get_color() -> Color:
-	return Color("ffd541")

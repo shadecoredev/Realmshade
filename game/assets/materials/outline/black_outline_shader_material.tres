@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dwuos01s42vdx"]
+
+[ext_resource type="Shader" uid="uid://c8njfiv2fyavl" path="res://assets/shader/outline/outline_shader.gdshader" id="1_nv3d4"]
+
+[resource]
+shader = ExtResource("1_nv3d4")
+shader_parameter/outline_color = Color(0, 0, 0, 1)

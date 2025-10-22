@@ -3,9 +3,14 @@ class_name FightInventoryInstance
 
 var enemy : FightInventoryInstance
 
-var _valid_effects : PackedStringArray = [
+static var valid_effects : PackedStringArray = [
 	"cooldown",
 	"start"
+]
+
+static var valid_suffixes : PackedStringArray = [
+	"resistance",
+	"power"
 ]
 
 var health : float = 100.0
@@ -105,7 +110,7 @@ func _parse_effect(effect_json : Dictionary):
 		printerr("Key \"type\" not found in item json: %s" % str(effect_json))
 		return
 
-	if effect_json["type"] not in _valid_effects:
+	if effect_json["type"] not in valid_effects:
 		printerr("Invalid \"type\" found in item json: %s" % str(effect_json))
 		return
 
@@ -120,87 +125,123 @@ func _parse_effect(effect_json : Dictionary):
 func _apply_effect(effect_json : Dictionary):
 	# Item effects
 
-	if "damage" in effect_json:
-		enemy.recieve_damage(effect_json["damage"] * (1.0 + get_status_effect_value("fury") / 100.0), "damage")
-	if "self_damage" in effect_json:
-		recieve_damage(effect_json["self_damage"], "self_damage")
+	for key in effect_json.keys():
+		match(key):
+			"damage":
+				enemy.recieve_damage(effect_json["damage"] + get_status_effect_value("fury"), "damage")
+				continue
 
-	if "shock" in effect_json:
-		enemy.recieve_ailment("shock", effect_json["shock"])
-		enemy.recieve_damage(effect_json["shock"], "shock")
-	if "self_shock" in effect_json:
-		recieve_ailment("shock", effect_json["self_shock"])
-		recieve_damage(effect_json["self_shock"], "shock")
+			"self_damage":
+				recieve_damage(effect_json["self_damage"], "self_damage")
+				continue
 
-	if "fire" in effect_json:
-		enemy.recieve_ailment("fire", effect_json["fire"])
-	if "self_fire" in effect_json:
-		recieve_ailment("fire", effect_json["self_fire"])
+			"shock":
+				enemy.recieve_ailment("shock", effect_json["shock"])
+				enemy.recieve_damage(effect_json["shock"], "shock")
+				continue
 
-	if "poison" in effect_json:
-		enemy.recieve_ailment("poison", effect_json["poison"])
-	if "self_poison" in effect_json:
-		recieve_ailment("poison", effect_json["self_poison"])
+			"self_shock":
+				recieve_ailment("shock", effect_json["self_shock"])
+				recieve_damage(effect_json["self_shock"], "shock")
+				continue
+
+			"fire":
+				enemy.recieve_ailment("fire", effect_json["fire"])
+				continue
+
+			"self_fire":
+				recieve_ailment("fire", effect_json["self_fire"])
+				continue
+
+			"poison":
+				enemy.recieve_ailment("poison", effect_json["poison"])
+				continue
+			"self_poison":
+				recieve_ailment("poison", effect_json["self_poison"])
+				continue
+				
+			"acid":
+				enemy.recieve_ailment("acid", effect_json["acid"])
+				continue
+
+			"self_acid":
+				recieve_ailment("acid", effect_json["self_acid"])
+				continue
+
+			"doom":
+				enemy.recieve_status_effect("doom", effect_json["doom"])
+				continue
+
+			"self_doom":
+				recieve_status_effect("doom", effect_json["self_doom"])
+				continue
+
+			"block":
+				increase_defence("block", effect_json["block"])
+				continue
+				
+			"absorption":
+				increase_defence("absorption", effect_json["absorption"])
+				continue
+				
+			"barrier":
+				recieve_status_effect("maximum_barrier", effect_json["barrier"])
+				increase_defence("barrier", effect_json["barrier"])
+				continue
+			
+			"restore_barrier":
+				var current_barrier = get_defence_value("barrier")
+				var maximum_barrier = get_status_effect_value("maximum_barrier")
+				increase_defence(
+					"barrier",
+					min(
+						effect_json["restore_barrier"],
+						maximum_barrier - current_barrier
+					)
+				)
+				continue
+			
+			"restore_barrier_percent":
+				var current_barrier = get_defence_value("barrier")
+				var maximum_barrier = get_status_effect_value("maximum_barrier")
+				increase_defence(
+					"barrier",
+					min(
+						maximum_barrier * effect_json["restore_barrier_percent"] * 0.01,
+						maximum_barrier - current_barrier
+					)
+				)
+				continue
+
+			"heal":
+				heal(effect_json["heal"])
+				continue
+
+			"health":
+				health += effect_json["health"]
+				current_health += effect_json["health"]
+				continue
+
+			"regeneration":
+				recieve_status_effect("regeneration", effect_json["regeneration"])
+				continue
+
+			"purity":
+				recieve_status_effect("purity", effect_json["purity"])
+				continue
+
+			"fury":
+				recieve_status_effect("fury", effect_json["fury"])
+				continue
 		
-	if "acid" in effect_json:
-		enemy.recieve_ailment("acid", effect_json["acid"])
-	if "self_acid" in effect_json:
-		recieve_ailment("acid", effect_json["self_acid"])
-
-	if "doom" in effect_json:
-		enemy.recieve_status_effect("doom", effect_json["doom"])
-	if "self_doom" in effect_json:
-		recieve_status_effect("doom", effect_json["self_doom"])
-
-	if "block" in effect_json:
-		increase_defence("block", effect_json["block"])
-		
-	if "absorption" in effect_json:
-		increase_defence("absorption", effect_json["absorption"])
-		
-	if "barrier" in effect_json:
-		recieve_status_effect("maximum_barrier", effect_json["barrier"])
-		increase_defence("barrier", effect_json["barrier"])
-	
-	if "restore_barrier" in effect_json:
-		var current_barrier = get_defence_value("barrier")
-		var maximum_barrier = get_status_effect_value("maximum_barrier")
-		increase_defence(
-			"barrier",
-			min(
-				effect_json["restore_barrier"],
-				maximum_barrier - current_barrier
-			)
-		)
-	
-	if "restore_barrier_percent" in effect_json:
-		var current_barrier = get_defence_value("barrier")
-		var maximum_barrier = get_status_effect_value("maximum_barrier")
-		increase_defence(
-			"barrier",
-			min(
-				maximum_barrier * effect_json["restore_barrier_percent"] * 0.01,
-				maximum_barrier - current_barrier
-			)
-		)
-
-	if "heal" in effect_json:
-		heal(effect_json["heal"])
-
-	if "health" in effect_json:
-		health += effect_json["health"]
-		current_health += effect_json["health"]
-
-	if "regeneration" in effect_json:
-		recieve_status_effect("regeneration", effect_json["regeneration"])
-
-	if "purity" in effect_json:
-		recieve_status_effect("purity", effect_json["purity"])
-
-	if "fury" in effect_json:
-		recieve_status_effect("fury", effect_json["fury"])
+		for suffix in valid_suffixes:
+			if key.ends_with(suffix):
+				recieve_suffix_status_effect(suffix, key.left(key.length()-suffix.length()-1), effect_json[key])
+				continue
 
 func increase_defence(defence_name : String, value : float):
+	value *= (100.0 + get_status_effect_value(defence_name+"_power"))/100.0
+
 	var index = defenses.find_custom(func(d): return d.name == defence_name)
 	if index == -1:
 		var defense = InstantiateByName.instantiate(defence_name.capitalize().replace(" ", ""))
@@ -212,7 +253,10 @@ func increase_defence(defence_name : String, value : float):
 		defenses[index].value += value
 
 func recieve_ailment(ailment_name : String, value : float):
-	var index = ailments.find_custom(func(d): return d.name == ailment_name)
+	value *= 100/(100.0 + get_status_effect_value(ailment_name+"_resistance"))
+	value *= (100.0 + enemy.get_status_effect_value(ailment_name+"_power"))/100.0
+	
+	var index = ailments.find_custom(func(a): return a.name == ailment_name)
 	if index == -1:
 		var ailment = InstantiateByName.instantiate(ailment_name.capitalize().replace(" ", ""))
 		if ailment != null and ailment is Ailment:
@@ -222,7 +266,10 @@ func recieve_ailment(ailment_name : String, value : float):
 		ailments[index].value += value
 
 func recieve_status_effect(status_effect_name : String, value : float):
-	var index = status_effects.find_custom(func(d): return d.name == status_effect_name)
+	value *= 100/(100.0 + get_status_effect_value(status_effect_name+"_resistance"))
+	value *= (100.0 + enemy.get_status_effect_value(status_effect_name+"_power"))/100.0
+
+	var index = status_effects.find_custom(func(s): return s.name == status_effect_name)
 	if index == -1:
 		var status_effect = InstantiateByName.instantiate(status_effect_name.capitalize().replace(" ", ""))
 		if status_effect != null and status_effect is StatusEffect:
@@ -231,7 +278,20 @@ func recieve_status_effect(status_effect_name : String, value : float):
 	else:
 		status_effects[index].value += value
 
+func recieve_suffix_status_effect(suffix : String, effect_name : String, value : float):
+	var index = status_effects.find_custom(func(s): return s.name == effect_name + "_" + suffix)
+	if index == -1:
+		var status_effect = InstantiateByName.instantiate(suffix.capitalize().replace(" ", ""))
+		if status_effect != null and status_effect is StatusEffect:
+			status_effect.value = value
+			status_effect.name = effect_name + "_" + suffix
+			status_effects.append(status_effect)
+	else:
+		status_effects[index].value += value
+
 func heal(value : float):
+	value *= get_status_effect_value("heal_power")/100.0
+
 	current_health += value
 	
 	if current_health > health:
@@ -256,6 +316,9 @@ func get_status_effect_value(status_effect_name : String) -> float:
 	return 0.0
 
 func recieve_damage(incoming_damage : float, damage_source : String):
+	incoming_damage *= 100/(100.0 + get_status_effect_value(damage_source+"_resistance"))
+	incoming_damage *= (100.0 + enemy.get_status_effect_value(damage_source+"_power"))/100.0
+	
 	if damage_source == "damage":
 		var thorns = get_status_effect_value("thorns")
 		if thorns > 0.0:

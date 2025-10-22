@@ -4,9 +4,9 @@
 [ext_resource type="Script" uid="uid://cj36cjoo4751e" path="res://scripts/managers/api_manager.gd" id="1_ho3eq"]
 [ext_resource type="Script" uid="uid://ds8mpidl03flq" path="res://scripts/managers/game_manager.gd" id="1_m1b03"]
 [ext_resource type="Script" uid="uid://bymfoc07b35y1" path="res://scripts/managers/fight_manager.gd" id="3_06ace"]
-[ext_resource type="Script" uid="uid://dfyjdsog1fy7v" path="res://scripts/ui/ui_item_manager.gd" id="4_5yrbq"]
+[ext_resource type="Script" uid="uid://dfyjdsog1fy7v" path="res://scripts/managers/ui_item_manager.gd" id="4_5yrbq"]
 [ext_resource type="Script" uid="uid://4v4lxtijmd7q" path="res://scripts/managers/event_manager.gd" id="4_8pxfq"]
-[ext_resource type="Material" uid="uid://fs2qwxy2iiwe" path="res://assets/materials/outline/outline_shader_material.tres" id="5_41ocu"]
+[ext_resource type="Material" uid="uid://fs2qwxy2iiwe" path="res://assets/materials/outline/item_outline_shader_material.tres" id="5_41ocu"]
 [ext_resource type="PackedScene" uid="uid://hhwydbml1pxj" path="res://scenes/templates/item_template.tscn" id="6_x5jd4"]
 [ext_resource type="Script" uid="uid://d0q6asix6qkpp" path="res://scripts/ui/ui_inventory.gd" id="8_3u463"]
 [ext_resource type="Material" uid="uid://con2a3dyhm53r" path="res://assets/materials/background/warped_fractal_noise_shader_material.tres" id="9_2s12t"]
@@ -107,7 +107,8 @@ drag_effect_particles = NodePath("CPUParticles2D")
 
 [node name="CPUParticles2D" type="GPUParticles2D" parent="UIItemManager"]
 z_index = 1
-position = Vector2(-16, 8)
+position = Vector2(-16, 0)
+emitting = false
 amount = 16
 lifetime = 0.5
 explosiveness = 0.25

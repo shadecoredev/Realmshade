@@ -48,14 +48,31 @@ func update_visuals(inventory : UIInventory, fight_inventory_instance : FightInv
 	for status_effect in fight_inventory_instance.status_effects:
 		if status_effect.is_hidden:
 			continue
-		if !status_effect_container.has_node(status_effect.name):
-			var new_visual = load("res://scenes/templates/status_effect_template.tscn").instantiate()
-			new_visual.get_child(0).modulate = status_effect.get_color()
-			new_visual.get_child(1).texture = load("res://assets/textures/icons/" + status_effect.name + ".png")
-			new_visual.name = status_effect.name
-			status_effect_container.add_child(new_visual)
-		var visual = status_effect_container.get_node(status_effect.name)
-		visual.get_child(0).text = str(int(ceil(status_effect.value)))
+		
+		var visual : Control
+		for suffix in FightInventoryInstance.valid_suffixes:
+			if status_effect.name.ends_with(suffix):
+				if !status_effect_container.has_node(status_effect.name):
+					var new_visual = load("res://scenes/templates/status_effect_template.tscn").instantiate()
+					var color = EffectColor.get_by_name(suffix)
+					var effect_name = status_effect.name.left(status_effect.name.length() - suffix.length() - 1)
+					new_visual.name = status_effect.name
+					new_visual.get_child(0).modulate = color
+					new_visual.get_child(1).texture = load("res://assets/textures/icons/" + effect_name + ".png")
+					new_visual.get_child(1).get_child(0).texture = load("res://assets/textures/icons/" + suffix + ".png")
+					status_effect_container.add_child(new_visual)
+				visual = status_effect_container.get_node(status_effect.name)
+				visual.get_child(0).text = str(int(ceil(status_effect.get_value())))
+		
+		if visual == null:
+			if !status_effect_container.has_node(status_effect.name):
+				var new_visual = load("res://scenes/templates/status_effect_template.tscn").instantiate()
+				new_visual.get_child(0).modulate = EffectColor.get_by_name(status_effect.name)
+				new_visual.get_child(1).texture = load("res://assets/textures/icons/" + status_effect.name + ".png")
+				new_visual.name = status_effect.name
+				status_effect_container.add_child(new_visual)
+			visual = status_effect_container.get_node(status_effect.name)
+			visual.get_child(0).text = str(int(ceil(status_effect.get_value())))
 	
 	for status_effect_visual in status_effect_container.get_children():
 		if fight_inventory_instance.status_effects.find_custom(func(s): return s.name == status_effect_visual.name) == -1:
@@ -66,12 +83,12 @@ func update_visuals(inventory : UIInventory, fight_inventory_instance : FightInv
 			continue
 		if !ailment_container.has_node(ailment.name):
 			var new_visual = load("res://scenes/templates/status_effect_template.tscn").instantiate()
-			new_visual.get_child(0).modulate = ailment.get_color()
+			new_visual.get_child(0).modulate = EffectColor.get_by_name(ailment.name)
 			new_visual.get_child(1).texture = load("res://assets/textures/icons/" + ailment.name + ".png")
 			new_visual.name = ailment.name
 			ailment_container.add_child(new_visual)
 		var visual = ailment_container.get_node(ailment.name)
-		visual.get_child(0).text = str(int(ceil(ailment.value)))
+		visual.get_child(0).text = str(int(ceil(ailment.get_value())))
 	
 	for ailment_visual in ailment_container.get_children():
 		if fight_inventory_instance.ailments.find_custom(func(s): return s.name == ailment_visual.name) == -1:
@@ -80,12 +97,12 @@ func update_visuals(inventory : UIInventory, fight_inventory_instance : FightInv
 	for defense in fight_inventory_instance.defenses:
 		if !defense_container.has_node(defense.name):
 			var new_visual = load("res://scenes/templates/status_effect_template.tscn").instantiate()
-			new_visual.get_child(0).modulate = defense.get_color()
+			new_visual.get_child(0).modulate = EffectColor.get_by_name(defense.name)
 			new_visual.get_child(1).texture = load("res://assets/textures/icons/" + defense.name + ".png")
 			new_visual.name = defense.name
 			defense_container.add_child(new_visual)
 		var visual = defense_container.get_node(defense.name)
-		visual.get_child(0).text = str(int(ceil(defense.value)))
+		visual.get_child(0).text = str(int(ceil(defense.get_value())))
 	
 	var maximum_barrier = fight_inventory_instance.get_status_effect_value("maximum_barrier")
 	var barrier = fight_inventory_instance.get_defence_value("barrier")

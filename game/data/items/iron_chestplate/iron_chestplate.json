@@ -11,7 +11,7 @@
 		{
 			"type" : "start",
 			"absorption" : 100,
-			"health" : 200,
+			"damage_resistance" : 40,
 			"block" : 400,
 		}
 	]

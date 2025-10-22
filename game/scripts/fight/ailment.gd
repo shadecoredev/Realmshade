@@ -16,5 +16,5 @@ func tick(_player_instance : FightInventoryInstance, _enemy_instance : FightInve
 func get_info() -> String:
 	return ""
 
-func get_color() -> Color:
-	return Color.WHITE
+func get_value() -> float:
+	return value

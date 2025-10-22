@@ -6,6 +6,8 @@ class_name UIInfoBox
 
 static var _info_boxes : Array[UIInfoBox] = []
 
+var initial_size : Vector2
+
 static func clear_info_boxes():
 	for box in _info_boxes:
 		box.queue_free()
@@ -70,10 +72,10 @@ func parse_item_description_from_json(item_json : Dictionary, fight_instance : F
 					if "charges" in effect_json:
 						text += " with [color=#71413b]%d[/color][img]res://assets/textures/icons/charges.png[/img] %s" % [effect_json["charges"], "charge" if effect_json["charges"] == 1 else "charges"]
 					text += ":\n"
-				text += get_effects_text(effect_json, fight_instance)
+				text += "[center]" + get_effects_text(effect_json, fight_instance) + "[/center]"
 			"start":
 				text += "Start:\n"
-				text += get_effects_text(effect_json, fight_instance)
+				text += "[center]" + get_effects_text(effect_json, fight_instance) + "[/center]"
 
 	if "tags" in item_json:
 		text += "[right][color=#333941]"
@@ -83,79 +85,108 @@ func parse_item_description_from_json(item_json : Dictionary, fight_instance : F
 	
 	return text
 
+func make_wider(new_width : float):
+	custom_minimum_size.x = new_width
+
+func _get_modified_value_text(value : float, effect_name : String, fight_instance : FightInventoryInstance) -> String:
+	if fight_instance == null:
+		return "%d" % value
+	
+	var modified_value : float = value
+	if effect_name == "damage":
+		modified_value += fight_instance.get_status_effect_value("fury")
+
+	if effect_name.begins_with("self_"):
+		effect_name = effect_name.right(effect_name.length() - 5)
+		modified_value *= 100/(100.0 + fight_instance.get_status_effect_value(effect_name+"_resistance"))
+	else:
+		modified_value *= (1.0 + fight_instance.get_status_effect_value(effect_name + "_power")/100.0)
+	
+	if int(modified_value) == int(value):
+		return "%d" % value
+	else:
+		return "%d(%d)" % [modified_value, value]
+
 func get_effects_text(effect_json : Dictionary, fight_instance : FightInventoryInstance) -> String:
 	var text = ""
-	
-	var fury = fight_instance.get_status_effect_value("fury") if fight_instance else 0.0
 
-	if "shock" in effect_json:
-		text += "\tInflict [color=#fef3c0]%d[/color][img]res://assets/textures/icons/shock.png[/img] shock\n" % effect_json["shock"]
-	if "self_shock" in effect_json:
-		text += "\tSuffer [color=#fef3c0]%d[/color][img]res://assets/textures/icons/shock.png[/img] shock\n" % effect_json["self_shock"]
+	for key in effect_json:
+		if key.ends_with("_resistance"):
+			var effect_name = key.left(key.length() - 11)
+			text += "Gain [color=#c7b08b]%d[/color][img]res://assets/textures/icons/resistance.png[/img][img]res://assets/textures/icons/%s.png[/img] %s resistance\n" % [effect_json[key], effect_name, effect_name]
+			#make_wider(240)
+			continue
+		if key.ends_with("_power"):
+			var effect_name = key.left(key.length() - 6)
+			text += "Gain [color=#477d85]%d[/color][img]res://assets/textures/icons/power.png[/img][img]res://assets/textures/icons/%s.png[/img] %s power \n" % [effect_json[key], effect_name, effect_name]
+			continue
 
-	if "fire" in effect_json:
-		text += "\tInflict [color=#f9a31b]%d[/color][img]res://assets/textures/icons/fire.png[/img] fire\n" % effect_json["fire"]
-	if "self_fire" in effect_json:
-		text += "\tSuffer [color=#f9a31b]%d[/color][img]res://assets/textures/icons/fire.png[/img] fire\n" % effect_json["self_fire"]
+		match key:
+			"shock":
+				text += "Inflict [color=#fef3c0]%s[/color][img]res://assets/textures/icons/shock.png[/img] shock\n" % _get_modified_value_text(effect_json["shock"], "shock", fight_instance)
+			"self_shock":
+				text += "Suffer [color=#fef3c0]%s[/color][img]res://assets/textures/icons/shock.png[/img] shock\n" % _get_modified_value_text(effect_json["self_shock"], "self_shock", fight_instance)
 
-	if "poison" in effect_json:
-		text += "\tInflict [color=#1a7a3e]%d[/color][img]res://assets/textures/icons/poison.png[/img] poison\n" % effect_json["poison"]
-	if "self_poison" in effect_json:
-		text += "\tSuffer [color=#1a7a3e]%d[/color][img]res://assets/textures/icons/poison.png[/img] poison\n" % effect_json["self_poison"]
+			"fire":
+				text += "Inflict [color=#f9a31b]%s[/color][img]res://assets/textures/icons/fire.png[/img] fire\n" % _get_modified_value_text(effect_json["fire"], "fire", fight_instance)
+			"self_fire":
+				text += "Suffer [color=#f9a31b]%s[/color][img]res://assets/textures/icons/fire.png[/img] fire\n" % _get_modified_value_text(effect_json["self_fire"], "self_fire", fight_instance)
 
-	if "acid" in effect_json:
-		text += "\tInflict [color=#9cdb43]%d[/color][img]res://assets/textures/icons/acid.png[/img] acid\n" % effect_json["acid"]
-	if "self_acid" in effect_json:
-		text += "\tSuffer [color=#9cdb43]%d[/color][img]res://assets/textures/icons/acid.png[/img] acid\n" % effect_json["self_acid"]
+			"poison":
+				text += "Inflict [color=#1a7a3e]%s[/color][img]res://assets/textures/icons/poison.png[/img] poison\n" % _get_modified_value_text(effect_json["poison"], "poison", fight_instance)
+			"self_poison":
+				text += "Suffer [color=#1a7a3e]%s[/color][img]res://assets/textures/icons/poison.png[/img] poison\n" % _get_modified_value_text(effect_json["self_poison"], "self_poison", fight_instance)
 
-	if "doom" in effect_json:
-		text += "\tInflict [color=#403353]%d[/color][img]res://assets/textures/icons/doom.png[/img] doom\n" % effect_json["doom"]
-	if "self_doom" in effect_json:
-		text += "\tSuffer [color=#403353]%d[/color][img]res://assets/textures/icons/doom.png[/img] doom\n" % effect_json["self_doom"]
+			"acid":
+				text += "Inflict [color=#9cdb43]%s[/color][img]res://assets/textures/icons/acid.png[/img] acid\n" % _get_modified_value_text(effect_json["acid"], "acid", fight_instance)
+			"self_acid":
+				text += "Suffer [color=#9cdb43]%s[/color][img]res://assets/textures/icons/acid.png[/img] acid\n" % _get_modified_value_text(effect_json["self_acid"], "self_acid", fight_instance)
 
-	if "damage" in effect_json:
-		if fury > 0.0:
-			text += "\tDeal [color=#73172d]%d(%d)[/color][img]res://assets/textures/icons/damage.png[/img] damage\n" % [effect_json["damage"] * (1.0 + fury / 100.0), effect_json["damage"]]
-		else:
-			text += "\tDeal [color=#73172d]%d[/color][img]res://assets/textures/icons/damage.png[/img] damage\n" % effect_json["damage"]
+			"doom":
+				text += "Inflict [color=#403353]%s[/color][img]res://assets/textures/icons/doom.png[/img] doom\n" % _get_modified_value_text(effect_json["doom"], "doom", fight_instance)
+			"self_doom":
+				text += "Suffer [color=#403353]%s[/color][img]res://assets/textures/icons/doom.png[/img] doom\n" % _get_modified_value_text(effect_json["self_doom"], "self_doom", fight_instance)
 
-	if "block" in effect_json:
-		text += "\tGain [color=#8b93af]%d[/color][img]res://assets/textures/icons/block.png[/img] block\n" % effect_json["block"]
+			"damage":
+				text += "Deal [color=#73172d]%s[/color][img]res://assets/textures/icons/damage.png[/img] damage\n" % _get_modified_value_text(effect_json["damage"], "damage", fight_instance)
 
-	if "absorption" in effect_json:
-		text += "\tGain [color=#ffd541]%d[/color][img]res://assets/textures/icons/absorption.png[/img] absorption\n" % effect_json["absorption"]
+			"block":
+				text += "Gain [color=#8b93af]%s[/color][img]res://assets/textures/icons/block.png[/img] block\n" % _get_modified_value_text(effect_json["block"], "block", fight_instance)
 
-	if "barrier" in effect_json:
-		text += "\tGain [color=#a6fcdb]%d[/color][img]res://assets/textures/icons/barrier.png[/img] barrier\n" % int(effect_json["barrier"])
-	
-	if "restore_barrier" in effect_json:
-		text += "\tRestore [color=#a6fcdb]%d[/color][img]res://assets/textures/icons/barrier.png[/img] barrier\n" % int(effect_json["restore_barrier"])
+			"absorption":
+				text += "Gain [color=#ffd541]%s[/color][img]res://assets/textures/icons/absorption.png[/img] absorption\n" % _get_modified_value_text(effect_json["absorption"], "absorption", fight_instance)
 
-	if "restore_barrier_percent" in effect_json:
-		text += "\tRestore [color=#a6fcdb]%d%%[/color][img]res://assets/textures/icons/barrier.png[/img] barrier\n" % int(effect_json["restore_barrier_percent"])
-	
-	if "heal" in effect_json:
-		text += "\tHeal [color=#59c135]%d[/color][img]res://assets/textures/icons/heal.png[/img] health\n" % effect_json["heal"]
+			"barrier":
+				text += "Gain [color=#a6fcdb]%s[/color][img]res://assets/textures/icons/barrier.png[/img] barrier\n" % _get_modified_value_text(effect_json["barrier"], "barrier", fight_instance)
 
-	if "health" in effect_json:
-		text += "\tGain [color=#b4202a]%d[/color][img]res://assets/textures/icons/health.png[/img] health\n" % effect_json["health"]
-	if "self_damage" in effect_json:
-		text += "\tSuffer [color=#b4202a]%d[/color][img]res://assets/textures/icons/health.png[/img] damage\n" % effect_json["self_damage"]
+			"restore_barrier":
+				text += "Restore [color=#a6fcdb]%d[/color][img]res://assets/textures/icons/barrier.png[/img] barrier\n" % int(effect_json["restore_barrier"])
 
-	if "regeneration" in effect_json:
-		text += "\tGain [color=#e86a73]%d[/color][img]res://assets/textures/icons/regeneration.png[/img] regeneration\n" % effect_json["regeneration"]
-		
-	if "purity" in effect_json:
-		text += "\tGain [color=#20d6c7]%d[/color][img]res://assets/textures/icons/purity.png[/img] purity\n" % effect_json["purity"]
-		
-	if "fury" in effect_json:
-		text += "\tGain [color=#df3e23]%d[/color][img]res://assets/textures/icons/fury.png[/img] fury\n" % effect_json["fury"]
-		
-	if "thorns" in effect_json:
-		text += "\tGain [color=#5a4e44]%d[/color][img]res://assets/textures/icons/thorns.png[/img] thorns\n" % effect_json["thorns"]
+			"restore_barrier_percent":
+				text += "Restore [color=#a6fcdb]%d%%[/color][img]res://assets/textures/icons/barrier.png[/img] barrier\n" % int(effect_json["restore_barrier_percent"])
+
+			"heal":
+				text += "Heal [color=#59c135]%s[/color][img]res://assets/textures/icons/heal.png[/img] health\n" % _get_modified_value_text(effect_json["heal"], "heal", fight_instance)
+
+			"health":
+				text += "Gain [color=#b4202a]%d[/color][img]res://assets/textures/icons/health.png[/img] health\n" % effect_json["health"]
+			"self_damage":
+				text += "Suffer [color=#b4202a]%d[/color][img]res://assets/textures/icons/health.png[/img] damage\n" % effect_json["self_damage"]
+
+			"regeneration":
+				text += "Gain [color=#e86a73]%s[/color][img]res://assets/textures/icons/regeneration.png[/img] regeneration\n" % _get_modified_value_text(effect_json["regeneration"], "regeneration", fight_instance)
+
+			"purity":
+				text += "Gain [color=#20d6c7]%s[/color][img]res://assets/textures/icons/purity.png[/img] purity\n" % _get_modified_value_text(effect_json["purity"], "purity", fight_instance)
+
+			"fury":
+				text += "Gain [color=#df3e23]%s[/color][img]res://assets/textures/icons/fury.png[/img] fury\n" % _get_modified_value_text(effect_json["fury"], "fury", fight_instance)
+
+			"thorns":
+				text += "Gain [color=#5a4e44]%s[/color][img]res://assets/textures/icons/thorns.png[/img] thorns\n" % _get_modified_value_text(effect_json["thorns"], "thorns", fight_instance)
+
 
 	return text
-
 
 func get_camera_zoomed_bounds_rect() -> Rect2:
 	var camera = get_viewport().get_camera_2d()

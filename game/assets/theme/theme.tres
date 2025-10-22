@@ -46,10 +46,13 @@ border_color = Color(0.2484003, 0.24840015, 0.24840003, 1)
 
 [resource]
 default_font = ExtResource("1_r3pl3")
+Button/constants/outline_size = 4
 Button/styles/disabled = SubResource("StyleBoxFlat_r3pl3")
 Button/styles/focus = SubResource("StyleBoxFlat_ny3hw")
 Button/styles/hover = SubResource("StyleBoxFlat_enqth")
 Button/styles/normal = SubResource("StyleBoxFlat_10c53")
 Button/styles/pressed = SubResource("StyleBoxFlat_r3vf3")
+Label/constants/outline_size = 4
+LineEdit/constants/outline_size = 4
 LineEdit/styles/focus = SubResource("StyleBoxFlat_abxy8")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_hfrb8")
