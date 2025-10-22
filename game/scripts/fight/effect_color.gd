@@ -6,7 +6,7 @@ static var _colors : Dictionary[String, Color] = {
 	"health" : Color("d6202a"),
 	"damage" : Color("73172d"),
 	"acid" : Color("9cdb43"),
-	"fire" : Color("fa6a0a"),
+	"fire" : Color("f9a31b"),
 	"poison" : Color("1a7a3e"),
 	"shock" : Color("fef3c0"),
 	"absorption" : Color("ffd541"),

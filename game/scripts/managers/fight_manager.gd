@@ -64,6 +64,9 @@ func start_fight():
 	
 	player_health_display.initialize(player_inventory, _player_inventory_effects)
 	enemy_health_display.initialize(enemy_inventory, _enemy_inventory_effects)
+
+	player_health_display.visible = true
+	enemy_health_display.visible = true
 	
 	set_process(true)
 

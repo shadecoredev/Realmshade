@@ -109,7 +109,7 @@ drag_effect_particles = NodePath("CPUParticles2D")
 z_index = 1
 position = Vector2(-16, 0)
 emitting = false
-amount = 16
+amount = 4
 lifetime = 0.5
 explosiveness = 0.25
 randomness = 0.25
@@ -117,7 +117,7 @@ process_material = SubResource("ParticleProcessMaterial_8pxfq")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(224, 128)
-zoom = Vector2(2.571, 2.571)
+zoom = Vector2(2, 2)
 
 [node name="TextureRect Background" type="ColorRect" parent="Camera2D"]
 z_index = -1000
@@ -125,10 +125,10 @@ material = ExtResource("9_2s12t")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -224.0
-offset_top = -126.0
-offset_right = 224.0
-offset_bottom = 126.0
+offset_left = -284.44446
+offset_top = -160.0
+offset_right = 284.44446
+offset_bottom = 160.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2

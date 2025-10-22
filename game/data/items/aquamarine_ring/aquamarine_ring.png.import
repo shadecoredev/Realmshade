@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cetp0007ebgmc"
-path="res://.godot/imported/rune_of_wisdom.png-c8915355fb685e723921cce5e4092637.ctex"
+uid="uid://rbc54p1mpfix"
+path="res://.godot/imported/aquamarine_ring.png-f8567b70c39bed5b4d9db5af4a385fc9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://data/items/rune_of_wisdom/rune_of_wisdom.png"
-dest_files=["res://.godot/imported/rune_of_wisdom.png-c8915355fb685e723921cce5e4092637.ctex"]
+source_file="res://data/items/aquamarine_ring/aquamarine_ring.png"
+dest_files=["res://.godot/imported/aquamarine_ring.png-f8567b70c39bed5b4d9db5af4a385fc9.ctex"]
 
 [params]
 

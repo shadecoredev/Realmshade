@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dknm4lka6vote"
-path="res://.godot/imported/rune_of_strength.png-42041fee7aa73550ef82763ff041e31b.ctex"
+uid="uid://coae2dcp7gdeg"
+path="res://.godot/imported/amethyst_ring.png-a20dcb408127baebc4d4a3b8ed4ebc02.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://data/items/rune_of_strength/rune_of_strength.png"
-dest_files=["res://.godot/imported/rune_of_strength.png-42041fee7aa73550ef82763ff041e31b.ctex"]
+source_file="res://data/items/amethyst_ring/amethyst_ring.png"
+dest_files=["res://.godot/imported/amethyst_ring.png-a20dcb408127baebc4d4a3b8ed4ebc02.ctex"]
 
 [params]
 

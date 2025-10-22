@@ -1,18 +1,16 @@
 {
-	"name" : "rune_of_wisdom",
+	"name" : "amethyst_ring",
 	"width" : 1,
 	"height" : 1,
-
+	
 	"tags" : [
-		"rune"
+		"jewelry"
 	],
 
 	"effects" : [
 		{
 			"type" : "start",
-			"adjacent" : {
-				"ailment_increase" : "1"
-			}
+			"doom_resistance" : 66
 		}
 	]
 }

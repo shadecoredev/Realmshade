@@ -1,18 +1,16 @@
 {
-	"name" : "rune_of_strength",
+	"name" : "aquamarine_ring",
 	"width" : 1,
 	"height" : 1,
-
+	
 	"tags" : [
-		"rune"
+		"jewelry"
 	],
 
 	"effects" : [
 		{
 			"type" : "start",
-			"adjacent" : {
-				"damage_increase" : "1"
-			}
+			"purity" : 30
 		}
 	]
 }

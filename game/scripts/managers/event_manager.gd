@@ -90,9 +90,15 @@ func clear():
 	fight_label.visible = false
 	trash_inventory.clear()
 	_reward_gamble_count = 0
+	fight_manager.player_health_display.visible = false
+	fight_manager.enemy_health_display.visible = false
 	
 	for child in event_parent.get_children():
 		child.queue_free()
+		
+	for child in event_reward_container.get_children():
+		if child is UIItem:
+			child.queue_free()
 
 func _event_changed_callback(_game_manager : GameManager):
 	clear()
@@ -369,6 +375,8 @@ func _handle_fight(event : Dictionary):
 	enemy_label.visible = true
 	
 	player_inventory.disable()
+	if player_storage:
+		player_storage.disable()
 	trash_inventory.disable()
 	
 	var tween = create_tween()
@@ -394,6 +402,8 @@ func _enemy_rolled_callback(data : Dictionary):
 
 func _fight_finished_callback(victory : bool):
 	player_inventory.enable()
+	if player_storage:
+		player_storage.enable()
 	trash_inventory.enable()
 	var tween = create_tween()
 	tween.tween_property(camera, "global_position", default_camera_position.global_position, 0.5).set_delay(1.0)

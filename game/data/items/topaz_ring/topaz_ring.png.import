@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://k615g6lgf2dc"
-path="res://.godot/imported/rune_of_vitality.png-a49b021c61527ee5dd3d030fcab6db86.ctex"
+uid="uid://b4vgluitmlnhp"
+path="res://.godot/imported/topaz_ring.png-2f9becd4ca66fde80f48d5eb27b84dc9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://data/items/rune_of_vitality/rune_of_vitality.png"
-dest_files=["res://.godot/imported/rune_of_vitality.png-a49b021c61527ee5dd3d030fcab6db86.ctex"]
+source_file="res://data/items/topaz_ring/topaz_ring.png"
+dest_files=["res://.godot/imported/topaz_ring.png-2f9becd4ca66fde80f48d5eb27b84dc9.ctex"]
 
 [params]
 

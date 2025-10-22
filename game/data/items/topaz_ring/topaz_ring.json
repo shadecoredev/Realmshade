@@ -1,18 +1,16 @@
 {
-	"name" : "rune_of_vitality",
+	"name" : "topaz_ring",
 	"width" : 1,
 	"height" : 1,
-
+	
 	"tags" : [
-		"rune"
+		"jewelry"
 	],
 
 	"effects" : [
 		{
 			"type" : "start",
-			"adjacent" : {
-				"defence_increase" : "1"
-			}
+			"fire_resistance" : 50
 		}
 	]
 }

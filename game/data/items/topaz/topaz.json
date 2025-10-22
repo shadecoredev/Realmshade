@@ -1,5 +1,5 @@
 {
-	"name" : "amethyst",
+	"name" : "topaz",
 	"width" : 2,
 	"height" : 2,
 	
@@ -10,7 +10,7 @@
 	"effects" : [
 		{
 			"type" : "start",
-			"doom_resistance" : 33,
+			"fire_resistance" : 25,
 		}
 	]
 }

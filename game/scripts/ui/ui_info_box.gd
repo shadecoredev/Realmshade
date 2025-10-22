@@ -56,26 +56,27 @@ func parse_item_description_from_json(item_json : Dictionary, fight_instance : F
 	var text = ""
 	
 	if "effects" not in item_json:
-		return "No effects"
-		
-	if item_json["effects"] is not Array:
-		return "No effects"
+		text += "[center]No effects[/center]\n"
+	else:
+		if item_json["effects"] is not Array:
+			printerr("Received non array effects when parsing item despcription")
+			return "[center]No effects[/center]"
 
-	for effect_json in item_json["effects"]:
-		match effect_json["type"]:
-			"cooldown":
-				if "time" in effect_json:
-					if abs(fmod(effect_json["time"], 1.0)) < 0.1:
-						text += "Cooldown %ds" % effect_json["time"]
-					else:
-						text += "Cooldown %.1fs" % effect_json["time"]
-					if "charges" in effect_json:
-						text += " with [color=#71413b]%d[/color][img]res://assets/textures/icons/charges.png[/img] %s" % [effect_json["charges"], "charge" if effect_json["charges"] == 1 else "charges"]
-					text += ":\n"
-				text += "[center]" + get_effects_text(effect_json, fight_instance) + "[/center]"
-			"start":
-				text += "Start:\n"
-				text += "[center]" + get_effects_text(effect_json, fight_instance) + "[/center]"
+		for effect_json in item_json["effects"]:
+			match effect_json["type"]:
+				"cooldown":
+					if "time" in effect_json:
+						if abs(fmod(effect_json["time"], 1.0)) < 0.1:
+							text += "Cooldown %ds" % effect_json["time"]
+						else:
+							text += "Cooldown %.1fs" % effect_json["time"]
+						if "charges" in effect_json:
+							text += " with [color=#71413b]%d[/color][img]res://assets/textures/icons/charges.png[/img] %s" % [effect_json["charges"], "charge" if effect_json["charges"] == 1 else "charges"]
+						text += ":\n"
+					text += "[center]" + get_effects_text(effect_json, fight_instance) + "[/center]"
+				"start":
+					text += "Start:\n"
+					text += "[center]" + get_effects_text(effect_json, fight_instance) + "[/center]"
 
 	if "tags" in item_json:
 		text += "[right][color=#333941]"

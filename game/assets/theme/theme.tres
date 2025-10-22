@@ -56,3 +56,4 @@ Label/constants/outline_size = 4
 LineEdit/constants/outline_size = 4
 LineEdit/styles/focus = SubResource("StyleBoxFlat_abxy8")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_hfrb8")
+RichTextLabel/constants/outline_size = 4
