@@ -8,14 +8,14 @@ static var _loaded_items : Dictionary[String, Item] = {}
 
 var _path : String
 
-static func load(item_name : String, data_source_paths : PackedStringArray = GameManager.data_source_paths) -> Item:
+static func load(item_name : String) -> Item:
 	if item_name.is_empty():
 		return null
 
 	if item_name in _loaded_items:
 		return _loaded_items[item_name]
 		
-	for source_path in data_source_paths:
+	for source_path in GameManager.data_source_paths:
 		if DirAccess.open(source_path + "items/" + item_name) != null:
 			var item = Item.new()
 			item.set_path(source_path + "items/" + item_name + "/" + item_name + ".json")

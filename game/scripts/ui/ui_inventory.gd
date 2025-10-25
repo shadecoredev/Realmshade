@@ -24,12 +24,14 @@ func _ready():
 func _mouse_exited_callback():
 	if _item_manager == null:
 		_item_manager = UIItemManager.get_instance()
-	_item_manager.unselect_hovered_inventory()
+	if _item_manager:
+		_item_manager.unselect_hovered_inventory()
 
 func _mouse_entered_callback():
 	if _item_manager == null:
 		_item_manager = UIItemManager.get_instance()
-	_item_manager.set_hovered_inventory(self)
+	if _item_manager:
+		_item_manager.set_hovered_inventory(self)
 
 func can_add_item(item : UIItem, is_rotated : bool, pos : Vector2i) -> bool:
 	return inventory.can_add_item(item.get_item(), is_rotated, pos)
@@ -41,7 +43,7 @@ func remove_item(item : UIItem):
 	inventory.remove_item(item.get_inventory_item())
 
 func _on_game_manager_level_increased_signal(source : GameManager):
-	set_inventory_size(source.get_inventory_size_by_level(source.get_level()))
+	set_inventory_size(GameManager.get_inventory_size_by_level(source.get_level()))
 
 func load_from_json(items : Array):
 	for item in items:

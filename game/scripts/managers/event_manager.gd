@@ -102,7 +102,6 @@ func clear():
 
 func _event_changed_callback(_game_manager : GameManager):
 	clear()
-	enemy_inventory.clear()
 	
 	if game_manager.get_event() % 2 == 1:
 		_update_background()
@@ -111,20 +110,21 @@ func _event_changed_callback(_game_manager : GameManager):
 		button.button_pressed = false
 	
 	if game_manager.get_event() == 0 or game_manager.get_event() == 2:
+		enemy_inventory.clear()
 		_handle_event_choice()
 		
 	elif game_manager.get_event() == 1 or game_manager.get_event() == 3:
+		enemy_inventory.clear()
 		_handle_event()
 		
 	elif game_manager.get_event() == 4:
+		enemy_inventory.clear()
 		_handle_pvp_info()
 		
 	elif game_manager.get_event() == 5:
 		if _selected_event != "":
 			enemy_label.text = _selected_event.get_file().get_basename().capitalize()
-			var event_file = FileAccess.open(_selected_event, FileAccess.READ)
-			var event = JSON.parse_string(event_file.get_as_text())
-			_handle_fight(event)
+		_handle_fight()
 
 func _update_background():
 	var color_pool : PackedColorArray = [
@@ -194,7 +194,9 @@ func _handle_event():
 		_handle_reward(_reward_pool, 0)
 	elif event.type == "fight":
 		enemy_label.text = _selected_event.get_file().get_basename().capitalize()
-		_handle_fight(event)
+		enemy_inventory.set_inventory_size(Vector2i(event["inventory"]["width"], event["inventory"]["height"]))
+		enemy_inventory.load_from_json(event["inventory"]["items"])
+		_handle_fight()
 	elif event.type == "crafting_station":
 		if "recipes" not in event:
 			printerr("Recipes key not found in crafting station event json.")
@@ -269,6 +271,7 @@ func _handle_reward(reward_pool : Array, gamble_count : int = 0):
 		var metadata = {
 			"level" : game_manager.get_level(),
 			"event" : game_manager.get_event(),
+			"event_name" : _selected_event.get_file().get_basename(),
 			"rerolls" : gamble_count
 		}
 		_reward_item = UIItemManager.get_instance().spawn_item(reward, metadata)
@@ -368,9 +371,7 @@ func _reward_gamble_button_pressed_callback():
 	_reward_gamble_count += 1
 	_handle_reward(_reward_pool, _reward_gamble_count)
 
-func _handle_fight(event : Dictionary):
-	enemy_inventory.set_inventory_size(Vector2i(event["inventory"]["width"], event["inventory"]["height"]))
-	enemy_inventory.load_from_json(event["inventory"]["items"])
+func _handle_fight():
 	enemy_inventory.visible = true
 	enemy_label.visible = true
 	
@@ -381,7 +382,17 @@ func _handle_fight(event : Dictionary):
 	
 	var tween = create_tween()
 	tween.tween_property(camera, "global_position", fight_camera_position.global_position, 0.5)
-	tween.tween_callback(fight_manager.start_fight)
+	tween.tween_callback(
+		func():
+			fight_manager.start_fight(
+				player_inventory.inventory,
+				enemy_inventory.inventory
+			)
+			fight_manager.initialize_ui(
+				player_inventory,
+				enemy_inventory
+			)
+	)
 	tween.set_trans(Tween.TRANS_CIRC)
 	tween.set_ease(Tween.EASE_IN_OUT)
 	
@@ -396,9 +407,23 @@ func _enemy_rolled_callback(data : Dictionary):
 		_selected_event = game_manager.roll_fight(game_manager.get_level())
 		fight_label.text ="No matching players found.\nYour opponent:\n%s" % _selected_event.get_file().get_basename().capitalize()
 		proceed_button.disabled = false
-		return
+
+		var event_file = FileAccess.open(_selected_event, FileAccess.READ)
+		var event = JSON.parse_string(event_file.get_as_text())
+		enemy_inventory.set_inventory_size(Vector2i(event["inventory"]["width"], event["inventory"]["height"]))
+		enemy_inventory.load_from_json(event["inventory"]["items"])
+
 	else:
-		print("Pvp fight found: %d" % data["build_id"])
+		enemy_label.text = data["player_name"]
+		fight_label.text ="Your opponent:\n%s" % data["player_name"]
+		proceed_button.disabled = false
+		enemy_inventory.set_inventory_size(GameManager.get_inventory_size_by_level(game_manager.get_level()))
+		enemy_inventory.load_from_json(data["items"])
+		_reward_pool.clear()
+		for item in data["items"]:
+			if item["name"] not in _reward_pool:
+				_reward_pool.append(item["name"])
+		
 
 func _fight_finished_callback(victory : bool):
 	player_inventory.enable()
@@ -421,19 +446,21 @@ func _fight_finished_callback(victory : bool):
 	)
 	tween.set_trans(Tween.TRANS_CIRC)
 	tween.set_ease(Tween.EASE_IN_OUT)
+	
+	api_manager.post_build()
 
 func _handle_fight_reward(event_path):
-	if event_path.is_empty():
-		print("Event path is empty.")
-	
-	var event_file = FileAccess.open(_selected_event, FileAccess.READ)
-	var event = JSON.parse_string(event_file.get_as_text())
-	
-	_reward_pool.clear()
-	
-	for item in event["inventory"]["items"]:
-		if item["name"] not in _reward_pool:
-			_reward_pool.append(item["name"])
-	
-	_handle_reward(_reward_pool)
-	
+	if event_path == "":
+		_handle_reward(_reward_pool)
+	else:
+		var event_file = FileAccess.open(_selected_event, FileAccess.READ)
+		var event = JSON.parse_string(event_file.get_as_text())
+		
+		_reward_pool.clear()
+		
+		for item in event["inventory"]["items"]:
+			if item["name"] not in _reward_pool:
+				_reward_pool.append(item["name"])
+		
+		_handle_reward(_reward_pool)
+		

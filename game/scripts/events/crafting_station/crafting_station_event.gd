@@ -14,6 +14,8 @@ var recipes : Dictionary
 
 var _markers : Array[UIMarker]
 
+var _event_name : String
+
 signal contents_changed_signal
 
 func add_recipe_search_inventory(inventory : UIInventory):
@@ -23,6 +25,7 @@ func is_empty():
 	return slot_1.slotted_item == null and slot_2.slotted_item == null
 
 func initialize_recipes(station_name : String, recipes_array : Array):
+	_event_name = station_name
 	label.text = station_name.capitalize()
 	
 	if recipes_array == null:
@@ -107,6 +110,7 @@ func _contents_changed_callback():
 					var metadata = {
 						"level" : game_manager.get_level(),
 						"event" : game_manager.get_event(),
+						"event_name" : _event_name.get_file().get_basename(),
 						"ingredient_1" : slot_1_item.get_metadata(),
 						"ingredient_2" : slot_2_item.get_metadata()
 					}
@@ -117,8 +121,6 @@ func _contents_changed_callback():
 						_result_item_changed_inventory_callback,
 						CONNECT_ONE_SHOT
 					)
-					
-					
 
 func create_marker(ui_item : UIItem):
 	var marker = load("res://scenes/templates/marker_template.tscn").instantiate() as UIMarker

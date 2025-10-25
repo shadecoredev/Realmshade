@@ -1,0 +1,78 @@
+[gd_scene load_steps=7 format=3 uid="uid://chcw5o3kp2j4g"]
+
+[ext_resource type="Script" uid="uid://cj36cjoo4751e" path="res://scripts/managers/api_manager.gd" id="1_1lipe"]
+[ext_resource type="Script" uid="uid://ds8mpidl03flq" path="res://scripts/managers/game_manager.gd" id="2_rkfmh"]
+[ext_resource type="Script" uid="uid://sgws6qjtv6mk" path="res://scripts/managers/game_file_verifier.gd" id="3_rkfmh"]
+[ext_resource type="Script" uid="uid://coi1kckpxm3rr" path="res://scripts/managers/fight_validator.gd" id="4_ccrhb"]
+[ext_resource type="Script" uid="uid://bymfoc07b35y1" path="res://scripts/managers/fight_manager.gd" id="5_ccrhb"]
+[ext_resource type="Material" uid="uid://con2a3dyhm53r" path="res://assets/materials/background/warped_fractal_noise_shader_material.tres" id="6_x7gxx"]
+
+[node name="FightValidator" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="APIManager" type="Node" parent="." node_paths=PackedStringArray("game_manager", "player_inventory")]
+script = ExtResource("1_1lipe")
+validator = true
+game_manager = NodePath("../GameManager")
+player_inventory = NodePath("")
+metadata/_custom_type_script = "uid://cj36cjoo4751e"
+
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("game_file_verifier")]
+script = ExtResource("2_rkfmh")
+game_file_verifier = NodePath("../GameFileVerifier")
+metadata/_custom_type_script = "uid://ds8mpidl03flq"
+
+[node name="GameFileVerifier" type="Node" parent="."]
+script = ExtResource("3_rkfmh")
+metadata/_custom_type_script = "uid://sgws6qjtv6mk"
+
+[node name="FightValidator" type="Node" parent="." node_paths=PackedStringArray("key_lineedit", "api_manager", "game_manager", "game_file_verifier", "fight_manager")]
+script = ExtResource("4_ccrhb")
+key_lineedit = NodePath("LineEdit")
+api_manager = NodePath("../APIManager")
+game_manager = NodePath("../GameManager")
+game_file_verifier = NodePath("../GameFileVerifier")
+fight_manager = NodePath("../FightManager")
+metadata/_custom_type_script = "uid://coi1kckpxm3rr"
+
+[node name="LineEdit" type="LineEdit" parent="FightValidator"]
+offset_left = -48.0
+offset_top = 21.0
+offset_right = 496.0
+offset_bottom = 43.0
+placeholder_text = "Key"
+alignment = 1
+
+[node name="FightManager" type="Node" parent="."]
+script = ExtResource("5_ccrhb")
+metadata/_custom_type_script = "uid://bymfoc07b35y1"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(224, 128)
+zoom = Vector2(2, 2)
+
+[node name="TextureRect Background" type="ColorRect" parent="Camera2D"]
+z_index = -1000
+material = ExtResource("6_x7gxx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -284.44446
+offset_top = -160.0
+offset_right = 284.44446
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 48.0
+offset_right = 256.0
+offset_bottom = 64.0
+text = "Run"
+
+[connection signal="pressed" from="Button" to="APIManager" method="get_raw_build"]

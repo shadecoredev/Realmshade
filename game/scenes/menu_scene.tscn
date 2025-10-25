@@ -1,14 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://bj0khyk6iqsvj"]
+[gd_scene load_steps=12 format=3 uid="uid://bj0khyk6iqsvj"]
 
 [ext_resource type="Material" uid="uid://dcofqc06xashp" path="res://assets/materials/stylized_text/stylized_text_material.tres" id="1_482oc"]
 [ext_resource type="Material" uid="uid://yo4pr2yapfjj" path="res://assets/materials/stylized_text/stylized_lineedit_material.tres" id="1_u4hxd"]
 [ext_resource type="Script" uid="uid://b8rxbp171kfkl" path="res://scripts/ui/ui_player_name_edit.gd" id="1_vrre2"]
 [ext_resource type="Texture2D" uid="uid://c3wqf5p4jhmyr" path="res://assets/textures/ui/buttons/random.png" id="2_6wmco"]
 [ext_resource type="Texture2D" uid="uid://bed1u862mutbd" path="res://assets/textures/ui/buttons/random_hover.png" id="3_482oc"]
-[ext_resource type="Script" uid="uid://b81gdw08s1ts5" path="res://scripts/ui/buttons/ui_change_scene_button.gd" id="6_vjll7"]
+[ext_resource type="Script" uid="uid://b81gdw08s1ts5" path="res://scripts/ui/utility/ui_change_scene_button.gd" id="6_vjll7"]
 [ext_resource type="PackedScene" uid="uid://3txoxcmhlqf4" path="res://scenes/main_scene.tscn" id="7_520ac"]
 [ext_resource type="PackedScene" uid="uid://b1iyh6nt3gjou" path="res://scenes/fight_designer.tscn" id="8_axson"]
+[ext_resource type="Script" uid="uid://duh2acn3gten2" path="res://scripts/ui/utility/ui_reveal_debug_on_key_press.gd" id="9_1iahe"]
 [ext_resource type="Material" uid="uid://con2a3dyhm53r" path="res://assets/materials/background/warped_fractal_noise_shader_material.tres" id="9_520ac"]
+[ext_resource type="PackedScene" uid="uid://chcw5o3kp2j4g" path="res://scenes/fight_validator.tscn" id="10_axson"]
 
 [node name="MenuScene" type="Control"]
 layout_mode = 3
@@ -27,9 +29,11 @@ zoom = Vector2(2, 2)
 [node name="TextureRect Background" type="ColorRect" parent="Camera2D"]
 z_index = -1000
 material = ExtResource("9_520ac")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 offset_left = -284.44446
 offset_top = -160.0
 offset_right = 284.44446
@@ -90,12 +94,33 @@ text = " Play "
 script = ExtResource("6_vjll7")
 scene = ExtResource("7_520ac")
 
-[node name="Button" type="Button" parent="."]
+[node name="Control Developer menu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control Developer menu"]
 layout_mode = 0
-offset_left = 160.0
-offset_top = 224.0
-offset_right = 288.0
-offset_bottom = 240.0
-text = "Sandbox"
+offset_left = -64.037506
+offset_top = -28.059021
+offset_right = 63.962494
+offset_bottom = 19.940979
+alignment = 1
+script = ExtResource("9_1iahe")
+
+[node name="Button Sandbox mode" type="Button" parent="Control Developer menu/VBoxContainer"]
+layout_mode = 2
+text = "Sandbox mode"
 script = ExtResource("6_vjll7")
 scene = ExtResource("8_axson")
+
+[node name="Button Fight validator" type="Button" parent="Control Developer menu/VBoxContainer"]
+layout_mode = 2
+text = "Fight validator"
+script = ExtResource("6_vjll7")
+scene = ExtResource("10_axson")

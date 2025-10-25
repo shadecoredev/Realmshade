@@ -24,10 +24,10 @@
 [ext_resource type="Texture2D" uid="uid://cjoeqqi3l8tn6" path="res://assets/textures/ui/panels/reward.png" id="21_xdqt8"]
 [ext_resource type="Texture2D" uid="uid://b2th63ddi0c0x" path="res://assets/textures/ui/buttons/fullscreen.png" id="22_58gk3"]
 [ext_resource type="Texture2D" uid="uid://ym7h21v3n83x" path="res://assets/textures/ui/buttons/fullscreen_hover.png" id="23_to7gp"]
-[ext_resource type="Script" uid="uid://dxp8jqaq12ajw" path="res://scripts/ui/buttons/ui_visibility_toggler_button.gd" id="24_6p3nn"]
+[ext_resource type="Script" uid="uid://dxp8jqaq12ajw" path="res://scripts/ui/utility/ui_visibility_toggler_button.gd" id="24_6p3nn"]
 [ext_resource type="Texture2D" uid="uid://cjmo8luusqxxe" path="res://assets/textures/ui/buttons/settings.png" id="24_u0fll"]
 [ext_resource type="Texture2D" uid="uid://dw0i3rkpjebch" path="res://assets/textures/ui/buttons/settings_hover.png" id="25_6p3nn"]
-[ext_resource type="Script" uid="uid://jkyph3ogaoex" path="res://scripts/ui/buttons/ui_fullscreen_toggle_button.gd" id="27_k67gn"]
+[ext_resource type="Script" uid="uid://jkyph3ogaoex" path="res://scripts/ui/utility/ui_fullscreen_toggle_button.gd" id="27_k67gn"]
 [ext_resource type="Texture2D" uid="uid://dkm1yugpqapdj" path="res://assets/textures/ui/buttons/background.png" id="29_02d50"]
 [ext_resource type="Texture2D" uid="uid://b7tev672m2q6i" path="res://assets/textures/ui/buttons/background_hover.png" id="30_pgk25"]
 
@@ -123,10 +123,10 @@ event_parent = NodePath("../Control Event parent")
 background = NodePath("../Camera2D/TextureRect Background")
 metadata/_custom_type_script = "uid://4v4lxtijmd7q"
 
-[node name="FightManager" type="Node" parent="." node_paths=PackedStringArray("player_inventory", "enemy_inventory", "player_health_display", "enemy_health_display")]
+[node name="FightManager" type="Node" parent="." node_paths=PackedStringArray("player_ui_inventory", "enemy_ui_inventory", "player_health_display", "enemy_health_display")]
 script = ExtResource("8_k6f3i")
-player_inventory = NodePath("../PanelContainer Player Inventory")
-enemy_inventory = NodePath("../PanelContainer Enemy Inventory")
+player_ui_inventory = NodePath("../PanelContainer Player Inventory")
+enemy_ui_inventory = NodePath("../PanelContainer Enemy Inventory")
 player_health_display = NodePath("../Control Player health")
 enemy_health_display = NodePath("../Control Enemy health")
 metadata/_custom_type_script = "uid://bymfoc07b35y1"
@@ -516,5 +516,4 @@ target_controls = [NodePath("../Camera2D/TextureRect Background")]
 [connection signal="event_changed_singal" from="GameManager" to="EventManager" method="_event_changed_callback"]
 [connection signal="level_increased_signal" from="GameManager" to="PanelContainer Player Inventory" method="_on_game_manager_level_increased_signal"]
 [connection signal="level_increased_signal" from="GameManager" to="PanelContainer Storage" method="_on_game_manager_level_increased_signal"]
-[connection signal="level_increased_signal" from="GameManager" to="Control Proceed/HBoxContainer/TextureRect Event Icon 3/Label Level" method="_level_increased_callback"]
 [connection signal="pressed" from="Control Proceed/Button Proceed" to="GameManager" method="advance_event"]

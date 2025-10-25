@@ -1,8 +1,5 @@
-@tool
 extends Node
 class_name GameFileVerifier
-
-@export_tool_button("Verify") var verify = _verify
 
 var _item_pool : PackedStringArray = []
 
@@ -36,6 +33,8 @@ var _events_range_end : Array[PackedStringArray] = []
 var _fights_by_levels : Array[PackedStringArray] = []
 var _fights_range_start : Array[PackedStringArray] = []
 var _fights_range_end : Array[PackedStringArray] = []
+
+var _events_by_name : Dictionary[String, String] = {}
 
 func _ready():
 	_verify()
@@ -150,6 +149,9 @@ func _verify_event(source_path : String, event_dir : String):
 	elif json.type != event_dir:
 		printerr("Event type doesn't match directory name %s" % source_path)
 		return
+	
+	if json.name not in _events_by_name:
+		_events_by_name[json.name] = source_path
 
 	if json.type == "free_reward":
 		if "rewards" not in json:
@@ -165,7 +167,6 @@ func _verify_event(source_path : String, event_dir : String):
 				printerr("Event reward \"%s\" not recognized for event %s" % [reward, source_path])
 				return
 			_item_used(reward)
-
 	elif json.type == "fight":
 		if "inventory" not in json:
 			printerr("Key \"inventory\" not found for event %s" % source_path)

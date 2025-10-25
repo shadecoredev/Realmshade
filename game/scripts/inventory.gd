@@ -91,3 +91,26 @@ func clear():
 	for item in _inventory_items:
 		remove_item(item)
 	_inventory_items.clear()
+
+func load_from_json(items : Array) -> bool:
+	for item_json in items:
+		var encoded_position = int(item_json["position"])
+
+		var item = Item.load(item_json["name"])
+		var inventory_item = InventoryItem.new(
+			item,
+			{}
+		)
+		inventory_item.set_rotated((encoded_position >> 8) & 1 != 0)
+			
+		var position = Vector2i(
+			(encoded_position >> 4) & 15,
+			(encoded_position & 15)
+		)
+	
+		if can_add_item(item, inventory_item.is_rotated(), position):
+			add_item(inventory_item, inventory_item.is_rotated(), position)
+		else:
+			return false
+	
+	return true

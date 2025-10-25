@@ -3,7 +3,7 @@ class_name GameManager
 
 @export var game_file_verifier : GameFileVerifier
 
-var _patch : String = "7c4a89d1-f4a3-4d14-90b4-d597cdec5de1"
+const _patch : String = "7c4a89d1-f4a3-4d14-90b4-d597cdec5de1"
 
 static var data_source_paths : PackedStringArray = ["res://data/"]
 
@@ -62,10 +62,10 @@ func get_level() -> int:
 func get_event() -> int:
 	return _current_event
 
-func get_seed() -> String:
-	return str(_seed)
+func get_seed() -> int:
+	return _seed
 
-func get_patch() -> String:
+static func get_patch() -> String:
 	return _patch
 
 func reset_seed() -> void:
@@ -73,7 +73,7 @@ func reset_seed() -> void:
 	
 	seed_changed_signal.emit(_seed)
 
-func get_inventory_size_by_level(level : int) -> Vector2i:
+static func get_inventory_size_by_level(level : int) -> Vector2i:
 	match level:
 		0: return Vector2i( 5,  3 )
 		1: return Vector2i( 5,  3 )
@@ -86,37 +86,39 @@ func get_inventory_size_by_level(level : int) -> Vector2i:
 
 func roll_events(level : int, event : int) -> PackedStringArray:
 	var result = PackedStringArray()
-	
+
 	var event_pool = game_file_verifier.get_event_list_by_level(level)
-	
+
 	for i in range(3):
 		if event_pool.is_empty():
 			printerr("Event pool is empty for level %d, event %d, index %d." % [level, event, i])
 			result.append("")
 			continue
-		
-		_rng.seed = hash(String.num_uint64(_seed)) + hash("event" + str(level) + str(event)+ str(i))
-		
+
+		_rng.seed = hash(String.num_uint64(_seed) + "event" + str(level) + str(event) + str(i))
+
 		var rolled_event_index = _rng.randi() % (event_pool.size())
-		
+
 		var rolled_event = event_pool[rolled_event_index]
 		result.append(rolled_event)
-		
+
 		event_pool.remove_at(event_pool.find(rolled_event)) # Prevent duplicates
-	
+
+	#printt("Event", level, event, result)
+
 	return result
-	
+
 func roll_fight(level : int) -> String:
 	var fight_pool = game_file_verifier.get_fight_list_by_level(level)
-	
+
 	if fight_pool.is_empty():
 		printerr("Fight pool is empty for level %d." % [level])
 		return ""
-	
-	_rng.seed = hash(String.num_uint64(_seed)) + hash("fight" + str(level))
-	
+
+	_rng.seed = hash(String.num_uint64(_seed) + "fight" + str(level))
+
 	var rolled_fight_index = _rng.randi() % (fight_pool.size())
-	
+
 	return fight_pool[rolled_fight_index]
 
 func get_item_pool(level : int, event : int, reward_pool : Array, gamble_count : int) -> Array:
@@ -125,7 +127,8 @@ func get_item_pool(level : int, event : int, reward_pool : Array, gamble_count :
 		if reward_pool.is_empty():
 			printerr("Reward pool is empty")
 			return []
-		_rng.seed = hash(String.num_uint64(_seed)) + hash("reward" + str(level) + str(event) + str(i))
+		_rng.seed = hash(String.num_uint64(_seed) + "pool" + str(level) + str(event) + str(i))
+
 		reward_pool.remove_at(_rng.randi() % (reward_pool.size()))
 	return reward_pool
 
@@ -135,12 +138,13 @@ func roll_reward(level : int, event : int, reward_pool : Array, gamble_count : i
 		printerr("Reward pool is empty")
 		return ""
 	
-	_rng.seed = hash(String.num_uint64(_seed)) + hash("reward" + str(level) + str(event) + str(gamble_count))
-	
-	var rolled_reward_index = _rng.randi() % (reward_pool.size())
+	_rng.seed = hash(String.num_uint64(_seed) + "reward" + str(level) + str(event) + str(gamble_count))
 	
 	if _rng.randf() <= get_gamble_failure_chance(gamble_count):
 		return ""
+
+	var rolled_reward_index = _rng.randi() % (reward_pool.size())
+	#printt("Event", level, event, reward_pool, gamble_count, reward_pool[rolled_reward_index])
 	
 	return reward_pool[rolled_reward_index]
 
@@ -149,11 +153,11 @@ func roll_fake_reward(level : int, event : int, reward_pool : Array, gamble_coun
 	if reward_pool.is_empty():
 		printerr("Reward pool is empty")
 		return ""
-	
+
 	if randf() <= get_gamble_failure_chance(gamble_count):
 		return ""
 	var rolled_reward_index = randi() % (reward_pool.size())
-	
+
 	return reward_pool[rolled_reward_index]
 
 func get_gamble_failure_chance(gamble_count : int) -> float:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b1iyh6nt3gjou"]
+[gd_scene load_steps=23 format=3 uid="uid://b1iyh6nt3gjou"]
 
 [ext_resource type="Script" uid="uid://sgws6qjtv6mk" path="res://scripts/managers/game_file_verifier.gd" id="1_55edb"]
 [ext_resource type="Script" uid="uid://cj36cjoo4751e" path="res://scripts/managers/api_manager.gd" id="1_ho3eq"]
@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://dtxk2qqwssgoa" path="res://assets/textures/ui/inventory/trash.png" id="18_a0cbh"]
 [ext_resource type="PackedScene" uid="uid://cn2vgqp0itllx" path="res://scenes/templates/health_display.tscn" id="19_8pxfq"]
 [ext_resource type="Texture2D" uid="uid://cjoeqqi3l8tn6" path="res://assets/textures/ui/panels/reward.png" id="20_2s12t"]
+[ext_resource type="Script" uid="uid://1wnn8i14qql1" path="res://scripts/ui/ui_level_display.gd" id="21_upeok"]
 [ext_resource type="Script" uid="uid://8ign16bjr6ni" path="res://scripts/debug/ui_debug_inventory_export.gd" id="22_yspe6"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8pxfq"]
@@ -42,10 +43,10 @@ metadata/_custom_type_script = "uid://ds8mpidl03flq"
 script = ExtResource("1_55edb")
 metadata/_custom_type_script = "uid://sgws6qjtv6mk"
 
-[node name="FightManager" type="Node" parent="." node_paths=PackedStringArray("player_inventory", "enemy_inventory", "player_health_display", "enemy_health_display")]
+[node name="FightManager" type="Node" parent="." node_paths=PackedStringArray("player_ui_inventory", "enemy_ui_inventory", "player_health_display", "enemy_health_display")]
 script = ExtResource("3_06ace")
-player_inventory = NodePath("../PanelContainer Player Inventory")
-enemy_inventory = NodePath("../PanelContainer Enemy Inventory")
+player_ui_inventory = NodePath("../PanelContainer Player Inventory")
+enemy_ui_inventory = NodePath("../PanelContainer Enemy Inventory")
 player_health_display = NodePath("../Control Player health")
 enemy_health_display = NodePath("../Control Enemy health")
 metadata/_custom_type_script = "uid://bymfoc07b35y1"
@@ -401,9 +402,6 @@ offset_right = 224.0
 offset_bottom = -18.0
 metadata/_edit_use_anchors_ = true
 
-[node name="Marker2D Fight camera top edge" type="Marker2D" parent="."]
-position = Vector2(224, -146)
-
 [node name="Label Fight label" type="RichTextLabel" parent="."]
 material = ExtResource("15_crqjd")
 offset_left = 256.0
@@ -415,10 +413,10 @@ horizontal_alignment = 1
 
 [node name="Button Proceed" type="Button" parent="."]
 material = ExtResource("15_crqjd")
-offset_left = 288.0
-offset_top = 272.0
-offset_right = 400.0
-offset_bottom = 288.0
+offset_left = 384.0
+offset_top = 256.0
+offset_right = 496.0
+offset_bottom = 272.0
 focus_neighbor_top = NodePath("../../VBoxContainer Event selection/Button Event 3")
 text = "Proceed"
 
@@ -431,5 +429,31 @@ offset_right = 432.0
 offset_bottom = 176.0
 mouse_filter = 2
 
+[node name="Button" type="Button" parent="."]
+offset_left = 304.0
+offset_top = 256.0
+offset_right = 368.0
+offset_bottom = 272.0
+text = "Roll enemy"
+
+[node name="UILevelDisplay" type="Label" parent="."]
+offset_left = 176.0
+offset_top = 256.0
+offset_right = 200.0
+offset_bottom = 270.0
+text = "..."
+horizontal_alignment = 1
+script = ExtResource("21_upeok")
+metadata/_custom_type_script = "uid://1wnn8i14qql1"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 208.0
+offset_top = 256.0
+offset_right = 282.0
+offset_bottom = 272.0
+text = "Increase level"
+
 [connection signal="pressed" from="APIManager/Button Roll enemy" to="APIManager" method="roll_enemy"]
 [connection signal="pressed" from="APIManager/Button Randomize seed" to="GameManager" method="reset_seed"]
+[connection signal="pressed" from="Button" to="APIManager" method="roll_enemy"]
+[connection signal="pressed" from="Button2" to="GameManager" method="advance_level"]
